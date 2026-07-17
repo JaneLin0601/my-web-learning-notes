@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⭐ 星形动画</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #0d1117;
+        }
+
+        .star {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #ffd700, #ff6b00);
+            clip-path: polygon(
+                50% 0%,
+                61% 35%,
+                98% 35%,
+                68% 57%,
+                79% 91%,
+                50% 70%,
+                21% 91%,
+                32% 57%,
+                2% 35%,
+                39% 35%
+            );
+            /* ⭐ 星形动画 */
+            animation: starGlow 2.5s ease-in-out infinite;
+            cursor: pointer;
+            transition: filter 0.3s ease;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+        }
+
+        /* 悬停暂停 + 发光增强 */
+        .star:hover {
+            animation-play-state: paused;
+            filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.9));
+        }
+
+        /* ⭐ 关键帧动画：缩放 + 旋转 + 变色 + 发光 */
+        @keyframes starGlow {
+            0% {
+                transform: scale(1) rotate(0deg);
+                background: linear-gradient(135deg, #ffd700, #ff6b00);
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+            }
+            50% {
+                transform: scale(1.15) rotate(180deg);
+                background: linear-gradient(135deg, #ff6b00, #ff1493);
+                box-shadow: 0 0 80px rgba(255, 107, 0, 0.6);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                background: linear-gradient(135deg, #ffd700, #ff6b00);
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+            }
+        }
+
+        /* 📝 提示文字 */
+        .hint {
+            position: fixed;
+            bottom: 40px;
+            color: rgba(255, 255, 255, 0.2);
+            font-family: '微软雅黑', sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="star"></div>
+    <p class="hint">✨ 悬停暂停 · 呼吸旋转星</p>
+
+</body>
+</html>

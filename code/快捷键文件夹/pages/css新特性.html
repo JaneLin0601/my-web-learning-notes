@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ CSS3 新特性核心要点</title>
+    <style>
+        /* ===== 全局重置 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '微软雅黑', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            /* 🌟 使用你的 4.jpg 作为背景 */
+            background-image: url('img/4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: rgba(10, 8, 7, 0.55);
+            background-blend-mode: overlay;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ===== 主容器：毛玻璃卡片 ===== */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 35px 40px;
+
+            background: rgba(22, 27, 34, 0.50);
+            backdrop-filter: blur(14px) saturate(1.2);
+            -webkit-backdrop-filter: blur(14px) saturate(1.2);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            color: #e6edf3;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            color: #f0e6d3;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.40);
+            font-size: 14px;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212, 168, 75, 0.25), transparent);
+            margin: 24px 0;
+        }
+
+        /* ===== 卡片 ===== */
+        .card {
+            background: rgba(13, 17, 23, 0.40);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: rgba(13, 17, 23, 0.60);
+            border-color: rgba(212, 168, 75, 0.10);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #d4a84b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #f0883e;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.60);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .card strong {
+            color: #f0e6d3;
+        }
+
+        /* ===== 代码块 ===== */
+        .code-block {
+            background: rgba(0, 0, 0, 0.50);
+            backdrop-filter: blur(4px);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #e6edf3;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+
+        .code-block .comment {
+            color: rgba(255, 255, 255, 0.30);
+        }
+        .code-block .selector {
+            color: #ff7b72;
+        }
+        .code-block .property {
+            color: #79c0ff;
+        }
+        .code-block .value {
+            color: #a5d6ff;
+        }
+        .code-block .keyword {
+            color: #ff7b72;
+        }
+
+        /* ===== 属性网格 ===== */
+        .prop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 700px) {
+            .prop-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .prop-card {
+            background: rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .prop-card:hover {
+            border-color: rgba(212, 168, 75, 0.12);
+        }
+
+        .prop-card h4 {
+            color: #d4a84b;
+            font-size: 15px;
+            margin-bottom: 4px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .prop-card .prop-desc {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .prop-card .prop-code {
+            color: rgba(255, 255, 255, 0.30);
+            font-size: 12px;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* ===== 演示区 ===== */
+        .demo-area {
+            background: rgba(0, 0, 0, 0.30);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== 各特性演示样式 ===== */
+
+        /* 圆角 */
+        .demo-radius {
+            width: 80px;
+            height: 80px;
+            background: rgba(31, 111, 235, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* 阴影 */
+        .demo-shadow {
+            width: 80px;
+            height: 80px;
+            background: rgba(35, 134, 54, 0.4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 渐变 */
+        .demo-gradient {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #1f6feb, #8b5cf6);
+        }
+
+        /* 变换 */
+        .demo-transform {
+            width: 80px;
+            height: 80px;
+            background: rgba(218, 54, 51, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            transform: rotate(15deg) scale(0.9);
+            transition: transform 0.4s ease;
+            cursor: pointer;
+        }
+
+        .demo-transform:hover {
+            transform: rotate(0deg) scale(1);
+        }
+
+        /* 过渡 */
+        .demo-transition {
+            width: 80px;
+            height: 80px;
+            background: rgba(212, 168, 75, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .demo-transition:hover {
+            background: rgba(212, 168, 75, 0.7);
+            transform: scale(1.1);
+            border-radius: 50%;
+        }
+
+        /* 滤镜 */
+        .demo-filter {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 107, 107, 0.5);
+            filter: blur(2px) brightness(1.2);
+            transition: filter 0.4s ease;
+            cursor: pointer;
+        }
+
+        .demo-filter:hover {
+            filter: blur(0) brightness(1);
+        }
+
+        /* ===== 标签 ===== */
+        .tag {
+            display: inline-block;
+            padding: 0 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tag-new {
+            background: rgba(35, 134, 54, 0.15);
+            color: #238636;
+        }
+        .tag-hot {
+            background: rgba(255, 215, 0, 0.12);
+            color: #ffd700;
+        }
+        .tag-common {
+            background: rgba(100, 200, 255, 0.10);
+            color: #64c8ff;
+        }
+
+        /* ===== 口诀 ===== */
+        .juekou {
+            text-align: center;
+            font-size: 18px;
+            color: #d4a84b;
+            letter-spacing: 3px;
+            padding: 14px;
+            background: rgba(212, 168, 75, 0.04);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 168, 75, 0.06);
+        }
+
+        .juekou span {
+            color: #f0e6d3;
+        }
+
+        /* ===== 返回链接 ===== */
+        .back-link-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 8px 22px;
+            background: rgba(212, 168, 75, 0.10);
+            border: 1px solid rgba(212, 168, 75, 0.15);
+            border-radius: 8px;
+            color: #d4a84b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        
+        }
+
+        .back-link:hover {
+            background: #d4a84b;
+            color: #0d1117;
+            box-shadow: 0 0 30px rgba(212, 168, 75, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* ===== 备注 ===== */
+        .note-box {
+            background: rgba(255, 215, 0, 0.03);
+            border-left: 3px solid rgba(212, 168, 75, 0.15);
+            padding: 10px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 10px;
+        }
+
+        .note-box p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.35);
+            margin: 0;
+        }
+
+        /* ===== 动画演示 ===== */
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+
+        .demo-animation {
+            width: 80px;
+            height: 80px;
+            background: rgba(138, 43, 226, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>✨ CSS3 新特性 · 核心要点</h1>
+        <p class="subtitle">CSS3 让网页从「平面」走向「立体」</p>
+        <hr>
+
+        <!-- ============================================================ -->
+        <!-- 1. CSS3 是什么 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>1️⃣ CSS3 是什么</h2>
+            <p>
+                CSS3 是 CSS 的 <strong>最新版本</strong>，它把 CSS 从单纯的“样式表”变成了
+                <strong>可以做动画、渐变、变形、滤镜</strong> 的“设计语言”。
+            </p>
+            <p style="color: rgba(255,255,255,0.35); font-size:13px;">
+                💡 核心思想：<strong style="color:#d4a84b;">让网页更生动、更精致，减少对图片的依赖</strong>
+            </p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 2. 最常用的 CSS3 新特性 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>2️⃣ 最常用的 CSS3 新特性</h2>
+
+            <div class="prop-grid">
+
+                <div class="prop-card">
+                    <h4>border-radius <span class="tag tag-common">圆角</span></h4>
+                    <div class="prop-desc">给元素加圆角，告别直角</div>
+                    <div class="prop-code">border-radius: 8px; → 50% 变圆形</div>
+                </div>
+
+                <div class="prop-card">
+                    <h4>box-shadow <span class="tag tag-common">阴影</span></h4>
+                    <div class="prop-desc">给元素加立体阴影，更有层次</div>
+                    <div class="prop-code">box-shadow: 0 4px 20px rgba(0,0,0,0.3);</div>
+                </div>
+
+                <div class="prop-card">
+                    <h4>linear-gradient <span class="tag tag-hot">渐变</span></h4>
+                    <div class="prop-desc">颜色平滑过渡，比图片更轻量</div>
+                    <div class="prop-code">background: linear-gradient(135deg, #1f6feb, #8b5cf6);</div>
+                </div>
+
+                <div class="prop-card">
+                    <h4>transform <span class="tag tag-hot">变换</span></h4>
+                    <div class="prop-desc">旋转、缩放、倾斜、位移</div>
+                    <div class="prop-code">transform: rotate(15deg) scale(1.2);</div>
+                </div>
+
+                <div class="prop-card">
+                    <h4>transition <span class="tag tag-hot">过渡</span></h4>
+                    <div class="prop-desc">属性变化时平滑动画，交互更自然</div>
+                    <div class="prop-code">transition: all 0.5s ease;</div>
+                </div>
+
+                <div class="prop-card">
+                    <h4>animation <span class="tag tag-new">动画</span></h4>
+                    <div class="prop-desc">关键帧动画，更复杂的动态效果</div>
+                    <div class="prop-code">animation: pulse 2s ease-in-out infinite;</div>
+                </div>
+
+                <div class="prop-card">
+                    <h4>filter <span class="tag tag-common">滤镜</span></h4>
+                    <div class="prop-desc">模糊、亮度、对比度等图像特效</div>
+                    <div class="prop-code">filter: blur(4px) brightness(1.2);</div>
+                </div>
+
+                <div class="prop-card">
+                    <h4>flexbox <span class="tag tag-new">弹性盒子</span></h4>
+                    <div class="prop-desc">一维布局，告别浮动</div>
+                    <div class="prop-code">display: flex; justify-content: center;</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. 可视化演示 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>3️⃣ 可视化演示 🎨</h2>
+            <p style="font-size:13px; color:rgba(255,255,255,0.35);">
+                🔹 悬停到每个方块上，看看效果
+            </p>
+
+            <div class="demo-area">
+
+                <div style="text-align:center;">
+                    <div class="demo-radius">圆角</div>
+                    <p style="font-size:11px; color:rgba(255,255,255,0.25); margin-top:4px;">border-radius</p>
+                </div>
+
+                <div style="text-align:center;">
+                    <div class="demo-shadow">阴影</div>
+                    <p style="font-size:11px; color:rgba(255,255,255,0.25); margin-top:4px;">box-shadow</p>
+                </div>
+
+                <div style="text-align:center;">
+                    <div class="demo-gradient">渐变</div>
+                    <p style="font-size:11px; color:rgba(255,255,255,0.25); margin-top:4px;">gradient</p>
+                </div>
+
+                <div style="text-align:center;">
+                    <div class="demo-transform">变换</div>
+                    <p style="font-size:11px; color:rgba(255,255,255,0.25); margin-top:4px;">transform</p>
+                </div>
+
+                <div style="text-align:center;">
+                    <div class="demo-transition">过渡</div>
+                    <p style="font-size:11px; color:rgba(255,255,255,0.25); margin-top:4px;">transition</p>
+                </div>
+
+                <div style="text-align:center;">
+                    <div class="demo-filter">滤镜</div>
+                    <p style="font-size:11px; color:rgba(255,255,255,0.25); margin-top:4px;">filter</p>
+                </div>
+
+                <div style="text-align:center;">
+                    <div class="demo-animation">动画</div>
+                    <p style="font-size:11px; color:rgba(255,255,255,0.25); margin-top:4px;">animation</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4. 常用代码片段（直接抄） -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>4️⃣ 常用代码片段 📋</h2>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:6px;">
+
+                <div style="background:rgba(0,0,0,0.25); border-radius:8px; padding:14px; border:1px solid rgba(255,255,255,0.03);">
+                    <h4 style="color:#64c8ff; font-size:13px;">圆角 + 阴影（卡片）</h4>
+                    <div class="code-block" style="font-size:12px; padding:8px 12px;">
+                        <span class="selector">.card</span> { <br>
+                        &nbsp;&nbsp;<span class="property">border-radius</span>: <span class="value">12px</span>; <br>
+                        &nbsp;&nbsp;<span class="property">box-shadow</span>: <span class="value">0 8px 30px rgba(0,0,0,0.3)</span>; <br>
+                        }
+                    </div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.25); border-radius:8px; padding:14px; border:1px solid rgba(255,255,255,0.03);">
+                    <h4 style="color:#64c8ff; font-size:13px;">渐变背景</h4>
+                    <div class="code-block" style="font-size:12px; padding:8px 12px;">
+                        <span class="selector">.hero</span> { <br>
+                        &nbsp;&nbsp;<span class="property">background</span>: <span class="value">linear-gradient(135deg, #1f6feb, #8b5cf6)</span>; <br>
+                        }
+                    </div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.25); border-radius:8px; padding:14px; border:1px solid rgba(255,255,255,0.03);">
+                    <h4 style="color:#64c8ff; font-size:13px;">悬停放大 + 旋转</h4>
+                    <div class="code-block" style="font-size:12px; padding:8px 12px;">
+                        <span class="selector">.btn:hover</span> { <br>
+                        &nbsp;&nbsp;<span class="property">transform</span>: <span class="value">scale(1.1) rotate(3deg)</span>; <br>
+                        &nbsp;&nbsp;<span class="property">transition</span>: <span class="value">0.4s ease</span>; <br>
+                        }
+                    </div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.25); border-radius:8px; padding:14px; border:1px solid rgba(255,255,255,0.03);">
+                    <h4 style="color:#64c8ff; font-size:13px;">毛玻璃效果</h4>
+                    <div class="code-block" style="font-size:12px; padding:8px 12px;">
+                        <span class="selector">.glass</span> { <br>
+                        &nbsp;&nbsp;<span class="property">background</span>: <span class="value">rgba(255,255,255,0.08)</span>; <br>
+                        &nbsp;&nbsp;<span class="property">backdrop-filter</span>: <span class="value">blur(14px)</span>; <br>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 5. 浏览器兼容性 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>5️⃣ 浏览器兼容性 ⚠️</h2>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+                <div style="background:rgba(35,134,54,0.06); border-radius:8px; padding:12px; border:1px solid rgba(35,134,54,0.08);">
+                    <p style="color:#238636; font-size:14px; font-weight:bold;">✅ 完全支持</p>
+                    <p style="font-size:12px; color:rgba(255,255,255,0.35);">border-radius, box-shadow, gradient, transform, flexbox</p>
+                </div>
+                <div style="background:rgba(255,215,0,0.06); border-radius:8px; padding:12px; border:1px solid rgba(255,215,0,0.08);">
+                    <p style="color:#ffd700; font-size:14px; font-weight:bold;">⚠️ 需加前缀</p>
+                    <p style="font-size:12px; color:rgba(255,255,255,0.35);">backdrop-filter（-webkit-）</p>
+                </div>
+                <div style="background:rgba(255,107,107,0.06); border-radius:8px; padding:12px; border:1px solid rgba(255,107,107,0.08);">
+                    <p style="color:#ff6b6b; font-size:14px; font-weight:bold;">❌ IE 不支持</p>
+                    <p style="font-size:12px; color:rgba(255,255,255,0.35);">所有 CSS3 新特性在 IE 中均不支持</p>
+                </div>
+            </div>
+            <div class="note-box" style="margin-top:10px;">
+                <p>💡 现代浏览器（Chrome / Edge / Firefox / Safari）都完全支持 CSS3，放心使用。</p>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 6. 记忆口诀 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>6️⃣ 记忆口诀 🧠</h2>
+            <div class="juekou">
+                “<span>圆角阴影</span>是基础，<span>渐变变换</span>加过渡，<br>
+                <span>动画滤镜</span>提质感，<span>弹性盒子</span>是归宿”
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:12px;">
+                <span class="tag tag-common">圆角 · 阴影</span>
+                <span class="tag tag-hot">渐变 · 变换</span>
+                <span class="tag tag-new">动画 · 滤镜</span>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 底部返回 -->
+        <!-- ============================================================ -->
+        <hr>
+        <div class="back-link-wrap">
+            <a href="../改3.html" class="back-link">← 返回首页</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox 核心要点</title>
+    <link rel="stylesheet" href="../pages/style.css">
+    <style>
+        /* ===== 全局样式 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+       
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #f0e6d3;
+            letter-spacing: 4px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #d4a84b, transparent);
+            margin: 30px 0;
+            opacity: 0.4;
+        }
+
+        /* ===== 卡片容器 ===== */
+        .card {
+            background: #161b22;
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            border: 1px solid #30363d;
+        }
+        .card h2 {
+            font-size: 18px;
+            color: #d4a84b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h2 code {
+            background: #0d1117;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #f0883e;
+        }
+        .card p {
+            color: #8b949e;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== 弹性盒子容器（演示用） ===== */
+        .flex-demo {
+            display: flex;
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+            border: 1px dashed #30363d;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .flex-demo .item {
+            background: #1f6feb;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 50px;
+        }
+        .flex-demo .item:nth-child(2) { background: #da3633; }
+        .flex-demo .item:nth-child(3) { background: #238636; }
+        .flex-demo .item:nth-child(4) { background: #d29922; }
+        .flex-demo .item:nth-child(5) { background: #8b5cf6; }
+
+        /* ===== 代码块 ===== */
+        .code-block {
+            background: #0d1117;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #e6edf3;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+            margin-top: 10px;
+        }
+        .code-block .comment { color: #8b949e; }
+        .code-block .selector { color: #ff7b72; }
+        .code-block .property { color: #79c0ff; }
+        .code-block .value { color: #a5d6ff; }
+        .code-block .keyword { color: #ff7b72; }
+
+        /* ===== 属性速查表 ===== */
+        .prop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        @media (max-width: 600px) {
+            .prop-grid { grid-template-columns: 1fr; }
+        }
+        .prop-item {
+            background: #0d1117;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border-left: 3px solid #d4a84b;
+        }
+        .prop-item .prop-name {
+            color: #79c0ff;
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .prop-item .prop-desc {
+            color: #8b949e;
+            font-size: 13px;
+        }
+        .prop-item .prop-values {
+            color: #a5d6ff;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        /* ===== 布局示例 ===== */
+        .layout-demo {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .layout-demo .demo-box {
+            flex: 1;
+            min-width: 200px;
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #30363d;
+        }
+        .layout-demo .demo-box h4 {
+            color: #d4a84b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .layout-demo .demo-box .mini-flex {
+            display: flex;
+            background: #161b22;
+            padding: 8px;
+            border-radius: 4px;
+            gap: 6px;
+            min-height: 50px;
+            flex-wrap: wrap;
+        }
+        .layout-demo .demo-box .mini-flex span {
+            background: #1f6feb;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .layout-demo .demo-box .mini-flex span:nth-child(2) { background: #da3633; }
+        .layout-demo .demo-box .mini-flex span:nth-child(3) { background: #238636; }
+
+        /* ===== 返回首页 ===== */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #d4a84b;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .back-link:hover {
+            border-bottom-color: #d4a84b;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📐 Flexbox 核心要点</h1>
+    <p class="subtitle">6 个属性 · 3 种布局 · 1 页搞定</p>
+    <hr>
+
+    <!-- ============================================================ -->
+    <!-- 1. 父容器：开启弹性 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>1️⃣ 父容器：<code>display: flex;</code></h2>
+        <p>在父元素上写 <code>display: flex;</code>，所有直接子元素自动变成“弹性项目”。</p>
+        <div class="code-block">
+            <span class="selector">.container</span> { <br>
+            &nbsp;&nbsp;<span class="property">display</span>: <span class="value">flex</span>; <br>
+            }
+        </div>
+        <div style="margin-top:10px;">
+            <div class="flex-demo">
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 2. 6 大核心属性 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>2️⃣ 6 大核心属性（背熟）</h2>
+        <p>所有属性都写在 <strong>父容器</strong> 上。</p>
+        <div class="prop-grid">
+            <div class="prop-item">
+                <div class="prop-name">flex-direction</div>
+                <div class="prop-desc">主轴方向</div>
+                <div class="prop-values">row | column | row-reverse | column-reverse</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">flex-wrap</div>
+                <div class="prop-desc">是否换行</div>
+                <div class="prop-values">nowrap | wrap | wrap-reverse</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">justify-content</div>
+                <div class="prop-desc">主轴对齐</div>
+                <div class="prop-values">flex-start | center | flex-end | space-between | space-around | space-evenly</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">align-items</div>
+                <div class="prop-desc">交叉轴对齐（单行）</div>
+                <div class="prop-values">stretch | center | flex-start | flex-end | baseline</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">align-content</div>
+                <div class="prop-desc">多行对齐（换行后）</div>
+                <div class="prop-values">stretch | center | flex-start | flex-end | space-between | space-around</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">gap</div>
+                <div class="prop-desc">子元素间距</div>
+                <div class="prop-values">10px | 20px 30px（行列）</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 3. 核心区别（最容易混淆的） -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>3️⃣ 核心区别 ⚠️</h2>
+        <div class="layout-demo">
+            <div class="demo-box">
+                <h4>justify-content</h4>
+                <p style="font-size:12px; color:#8b949e; margin-bottom:6px;">控制 <strong>主轴</strong> 方向</p>
+                <div class="mini-flex" style="justify-content:center;">
+                    <span>A</span><span>B</span><span>C</span>
+                </div>
+                <div class="code-block" style="font-size:12px; margin-top:6px;">
+                    justify-content: <span style="color:#a5d6ff;">center</span>;
+                </div>
+            </div>
+            <div class="demo-box">
+                <h4>align-items</h4>
+                <p style="font-size:12px; color:#8b949e; margin-bottom:6px;">控制 <strong>交叉轴</strong> 方向</p>
+                <div class="mini-flex" style="align-items:center; min-height:70px;">
+                    <span>A</span><span style="height:40px;">B</span><span>C</span>
+                </div>
+                <div class="code-block" style="font-size:12px; margin-top:6px;">
+                    align-items: <span style="color:#a5d6ff;">center</span>;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 4. 3 种常用布局（直接抄） -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>4️⃣ 3 种常用布局（直接抄）</h2>
+
+        <!-- 水平居中 -->
+        <div style="margin-bottom:20px;">
+            <h4 style="color:#d4a84b; font-size:14px;">A. 水平居中（导航栏）</h4>
+            <div class="code-block" style="font-size:12px;">
+                <span class="selector">.nav</span> { <br>
+                &nbsp;&nbsp;<span class="property">display</span>: <span class="value">flex</span>; <br>
+                &nbsp;&nbsp;<span class="property">justify-content</span>: <span class="value">center</span>; <br>
+                &nbsp;&nbsp;<span class="property">gap</span>: <span class="value">30px</span>; <br>
+                }
+            </div>
+            <div class="flex-demo" style="justify-content:center; min-height:50px;">
+                <div class="item" style="padding:6px 20px;">首页</div>
+                <div class="item" style="padding:6px 20px;">关于</div>
+                <div class="item" style="padding:6px 20px;">服务</div>
+                <div class="item" style="padding:6px 20px;">联系</div>
+            </div>
+        </div>
+
+        <!-- 两端对齐 -->
+        <div style="margin-bottom:20px;">
+            <h4 style="color:#d4a84b; font-size:14px;">B. 两端对齐（Logo + 菜单）</h4>
+            <div class="code-block" style="font-size:12px;">
+                <span class="selector">.header</span> { <br>
+                &nbsp;&nbsp;<span class="property">display</span>: <span class="value">flex</span>; <br>
+                &nbsp;&nbsp;<span class="property">justify-content</span>: <span class="value">space-between</span>; <br>
+                &nbsp;&nbsp;<span class="property">align-items</span>: <span class="value">center</span>; <br>
+                }
+            </div>
+            <div class="flex-demo" style="justify-content:space-between; min-height:50px;">
+                <div class="item" style="background:#238636;">LOGO</div>
+                <div style="display:flex; gap:10px;">
+                    <div class="item" style="padding:6px 16px;">首页</div>
+                    <div class="item" style="padding:6px 16px;">关于</div>
+                    <div class="item" style="padding:6px 16px;">联系</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 垂直居中 -->
+        <div>
+            <h4 style="color:#d4a84b; font-size:14px;">C. 垂直居中（登录框）</h4>
+            <div class="code-block" style="font-size:12px;">
+                <span class="selector">.login-box</span> { <br>
+                &nbsp;&nbsp;<span class="property">display</span>: <span class="value">flex</span>; <br>
+                &nbsp;&nbsp;<span class="property">flex-direction</span>: <span class="value">column</span>; <br>
+                &nbsp;&nbsp;<span class="property">justify-content</span>: <span class="value">center</span>; <br>
+                &nbsp;&nbsp;<span class="property">align-items</span>: <span class="value">center</span>; <br>
+                &nbsp;&nbsp;<span class="property">height</span>: <span class="value">100vh</span>; <br>
+                }
+            </div>
+            <div class="flex-demo" style="flex-direction:column; justify-content:center; align-items:center; min-height:120px;">
+                <div class="item" style="width:auto; background:#238636;">📧 用户名</div>
+                <div class="item" style="width:auto; background:#1f6feb;">🔒 密码</div>
+                <div class="item" style="width:auto; background:#da3633;">登录</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 5. 子元素属性（进阶） -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>5️⃣ 子元素属性（进阶）</h2>
+        <p>写在 <strong>子元素</strong> 上，单独控制某个项目的“弹性”。</p>
+        <div class="prop-grid">
+            <div class="prop-item">
+                <div class="prop-name">flex: 1;</div>
+                <div class="prop-desc">等分剩余空间</div>
+                <div class="prop-values">flex: 1 → 占满剩余宽度</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">align-self</div>
+                <div class="prop-desc">单独覆盖 align-items</div>
+                <div class="prop-values">center | flex-end | stretch</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">order</div>
+                <div class="prop-desc">调整排列顺序</div>
+                <div class="prop-values">order: -1 → 排到最前面</div>
+            </div>
+        </div>
+        <div class="flex-demo" style="margin-top:10px;">
+            <div class="item" style="flex:1;">flex:1</div>
+            <div class="item" style="flex:2;">flex:2</div>
+            <div class="item" style="flex:1;">flex:1</div>
+        </div>
+        <div class="code-block" style="font-size:12px; margin-top:8px;">
+            <span class="comment">/* 三个子元素按 1:2:1 分配剩余空间 */</span>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 底部 -->
+    <!-- ============================================================ -->
+    <hr>
+    <div style="text-align:center; color:#8b949e; font-size:13px; padding:10px 0;">
+        💡 记住口诀：<strong style="color:#d4a84b;">主轴方向 · 换行 · 对齐 · 分配</strong>
+        <br>
+        <span style="font-size:12px;">用 Live Server 打开，随时改属性看效果</span>
+    </div>
+
+    <a href="../改3.html" class="back-link">← 返回首页</a>
+
+</body>
+</html>

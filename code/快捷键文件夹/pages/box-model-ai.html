@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📦 盒子模型核心要点</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* 其他样式保留... */
+
+        /* ===== 覆盖卡片背景为半透明 ===== */
+        .card {
+            background: rgba(20, 18, 16, 0.45) !important;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(48, 54, 61, 0.3);
+        }
+
+        /* ===== 代码块背景也改半透明 ===== */
+        .code-block {
+            background: rgba(13, 17, 23, 0.6);
+        }
+
+        /* ===== 属性表格背景也改半透明 ===== */
+        .prop-item {
+            background: rgba(13, 17, 23, 0.6);
+        }
+
+        /* ===== 对比演示框也改半透明 ===== */
+        .compare-box .demo {
+            background: rgba(13, 17, 23, 0.6);
+        }
+
+        /* ===== 全局样式 ===== */
+
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #f0e6d3;
+            letter-spacing: 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #d4a84b, transparent);
+            margin: 30px 0;
+            opacity: 0.4;
+        }
+
+        /* ===== 卡片容器 ===== */
+        .card {
+            background: #161b22;
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            border: 1px solid #30363d;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #d4a84b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h2 code {
+            background: #0d1117;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #f0883e;
+        }
+
+        .card p {
+            color: #8b949e;
+            font-size: 14px;
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        /* ===== 盒子模型可视化 ===== */
+        .box-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            background: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .box-visual .margin-layer {
+            background: rgba(255, 107, 107, 0.15);
+            border: 2px dashed rgba(255, 107, 107, 0.5);
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+            min-width: 280px;
+            text-align: center;
+        }
+
+        .box-visual .margin-layer .label {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0d1117;
+            padding: 0 10px;
+            color: #ff6b6b;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .box-visual .border-layer {
+            background: rgba(255, 215, 0, 0.1);
+            border: 3px solid #ffd700;
+            padding: 25px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .box-visual .border-layer .label {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0d1117;
+            padding: 0 10px;
+            color: #ffd700;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .box-visual .padding-layer {
+            background: rgba(100, 200, 255, 0.1);
+            border: 2px solid rgba(100, 200, 255, 0.4);
+            padding: 30px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .box-visual .padding-layer .label {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0d1117;
+            padding: 0 10px;
+            color: #64c8ff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .box-visual .content {
+            background: #1f6feb;
+            padding: 20px 30px;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== 属性速查表 ===== */
+        .prop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .prop-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .prop-item {
+            background: #0d1117;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border-left: 3px solid #d4a84b;
+        }
+
+        .prop-item .prop-name {
+            color: #79c0ff;
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .prop-item .prop-desc {
+            color: #8b949e;
+            font-size: 13px;
+        }
+
+        .prop-item .prop-values {
+            color: #a5d6ff;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        /* ===== 代码块 ===== */
+        .code-block {
+            background: #0d1117;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #e6edf3;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+            margin-top: 10px;
+        }
+
+        .code-block .comment {
+            color: #8b949e;
+        }
+
+        .code-block .selector {
+            color: #ff7b72;
+        }
+
+        .code-block .property {
+            color: #79c0ff;
+        }
+
+        .code-block .value {
+            color: #a5d6ff;
+        }
+
+        .code-block .keyword {
+            color: #ff7b72;
+        }
+
+        /* ===== 对比演示 ===== */
+        .compare-box {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .compare-box .demo {
+            flex: 1;
+            min-width: 200px;
+            background: #0d1117;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+
+        .compare-box .demo h4 {
+            color: #d4a84b;
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .compare-box .demo .box {
+            background: #1f6feb;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .compare-box .demo .box.border-box {
+            box-sizing: border-box;
+        }
+
+        .compare-box .demo .box.content-box {
+            box-sizing: content-box;
+        }
+
+        .compare-box .demo .box-params {
+            font-size: 12px;
+            color: #8b949e;
+            text-align: center;
+            margin-top: 6px;
+            font-family: monospace;
+        }
+
+        /* ===== 布局示例 ===== */
+        .layout-demo {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .layout-demo .demo-box {
+            flex: 1;
+            min-width: 200px;
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #30363d;
+        }
+
+        .layout-demo .demo-box h4 {
+            color: #d4a84b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        /* ===== 返回首页 ===== */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #d4a84b;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            border-bottom-color: #d4a84b;
+        }
+
+        /* ===== 特殊标注 ===== */
+        .highlight {
+            color: #f0883e;
+            font-weight: bold;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #1f6feb;
+            color: #fff;
+            padding: 0 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📦 盒子模型核心要点</h1>
+    <p class="subtitle">内容 · 内边距 · 边框 · 外边距 —— 一切皆盒子</p>
+    <hr>
+
+    <!-- ============================================================ -->
+    <!-- 1. 什么是盒子模型 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>1️⃣ 什么是盒子模型</h2>
+        <p>在 HTML 中，<strong>每一个元素</strong> 都是一个“盒子”。这个盒子由四层组成：</p>
+
+        <div class="box-visual">
+            <div class="margin-layer">
+                <span class="label">margin（外边距）</span>
+                <div class="border-layer">
+                    <span class="label">border（边框）</span>
+                    <div class="padding-layer">
+                        <span class="label">padding（内边距）</span>
+                        <div class="content">content（内容）</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+            <div style="background:#0d1117; padding:10px 14px; border-radius:6px; border-left:3px solid #ff6b6b;">
+                <strong style="color:#ff6b6b;">margin（外边距）</strong>
+                <p style="font-size:13px; color:#8b949e; margin:0;">盒子与盒子之间的距离</p>
+            </div>
+            <div style="background:#0d1117; padding:10px 14px; border-radius:6px; border-left:3px solid #ffd700;">
+                <strong style="color:#ffd700;">border（边框）</strong>
+                <p style="font-size:13px; color:#8b949e; margin:0;">盒子的边框线</p>
+            </div>
+            <div style="background:#0d1117; padding:10px 14px; border-radius:6px; border-left:3px solid #64c8ff;">
+                <strong style="color:#64c8ff;">padding（内边距）</strong>
+                <p style="font-size:13px; color:#8b949e; margin:0;">内容与边框之间的空间</p>
+            </div>
+            <div style="background:#0d1117; padding:10px 14px; border-radius:6px; border-left:3px solid #1f6feb;">
+                <strong style="color:#1f6feb;">content（内容）</strong>
+                <p style="font-size:13px; color:#8b949e; margin:0;">文字、图片等实际内容</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 2. 核心属性速查 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>2️⃣ 核心属性速查</h2>
+        <div class="prop-grid">
+            <div class="prop-item">
+                <div class="prop-name">width / height</div>
+                <div class="prop-desc">内容的宽高</div>
+                <div class="prop-values">auto | 100px | 50%</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">padding</div>
+                <div class="prop-desc">内边距（4 个方向）</div>
+                <div class="prop-values">10px | 10px 20px | 10px 20px 30px 40px</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">border</div>
+                <div class="prop-desc">边框（粗细 样式 颜色）</div>
+                <div class="prop-values">1px solid #333 | 2px dashed red</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">margin</div>
+                <div class="prop-desc">外边距（4 个方向）</div>
+                <div class="prop-values">10px | 10px auto | 10px 20px 30px 40px</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">box-sizing</div>
+                <div class="prop-desc">尺寸计算方式</div>
+                <div class="prop-values">content-box（默认）| border-box（推荐）</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-name">border-radius</div>
+                <div class="prop-desc">圆角</div>
+                <div class="prop-values">8px | 50%（圆形）| 10px 20px</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 3. ⚠️ 最关键：box-sizing -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>3️⃣ ⚠️ 最关键：<code>box-sizing</code></h2>
+        <p>这是盒子模型里 <span class="highlight">最容易坑人</span> 的属性，决定了宽高怎么算。</p>
+
+        <div class="compare-box">
+            <div class="demo">
+                <h4>❌ content-box（默认）</h4>
+                <div class="box content-box" style="width:200px; padding:20px; border:2px solid #ff6b6b;">
+                    内容
+                </div>
+                <div class="box-params">
+                    width: 200px + padding 40px + border 4px = <span style="color:#ff6b6b;">244px</span>
+                </div>
+                <p style="font-size:12px; color:#8b949e; text-align:center; margin-top:4px;">
+                    ⚠️ 实际宽度 = width + padding + border
+                </p>
+            </div>
+            <div class="demo">
+                <h4>✅ border-box（推荐）</h4>
+                <div class="box border-box" style="width:200px; padding:20px; border:2px solid #238636;">
+                    内容
+                </div>
+                <div class="box-params">
+                    width: 200px = 内容 156px + padding 40px + border 4px
+                </div>
+                <p style="font-size:12px; color:#8b949e; text-align:center; margin-top:4px;">
+                    ✅ 实际宽度 = width（包含 padding 和 border）
+                </p>
+            </div>
+        </div>
+
+        <div class="code-block" style="margin-top:15px;">
+            <span class="comment">/* 全局推荐：让所有盒子都用 border-box 计算 */</span><br>
+            <span class="selector">*</span> { <br>
+            &nbsp;&nbsp;<span class="property">margin</span>: <span class="value">0</span>; <br>
+            &nbsp;&nbsp;<span class="property">padding</span>: <span class="value">0</span>; <br>
+            &nbsp;&nbsp;<span class="property">box-sizing</span>: <span class="value">border-box</span>; <br>
+            }
+        </div>
+        <p style="font-size:13px; color:#8b949e; margin-top:6px;">
+            💡 这就是为什么很多项目在 CSS 开头写 <code>* { box-sizing: border-box; }</code>，<strong>防止宽高算错</strong>。
+        </p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 4. 常见布局场景 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>4️⃣ 常见布局场景</h2>
+
+        <!-- 卡片 -->
+        <div style="margin-bottom:20px;">
+            <h4 style="color:#d4a84b; font-size:14px;">A. 卡片（带内边距和边框）</h4>
+            <div class="code-block" style="font-size:12px;">
+                <span class="selector">.card</span> { <br>
+                &nbsp;&nbsp;<span class="property">background</span>: <span class="value">#161b22</span>; <br>
+                &nbsp;&nbsp;<span class="property">padding</span>: <span class="value">20px 25px</span>; <br>
+                &nbsp;&nbsp;<span class="property">border</span>: <span class="value">1px solid #30363d</span>; <br>
+                &nbsp;&nbsp;<span class="property">border-radius</span>: <span class="value">12px</span>; <br>
+                }
+            </div>
+            <div
+                style="background:#161b22; padding:20px 25px; border:1px solid #30363d; border-radius:12px; margin-top:8px;">
+                <h5 style="color:#fff; margin-bottom:4px;">卡片标题</h5>
+                <p style="color:#8b949e; font-size:13px;">这是卡片内容，有内边距、边框和圆角。</p>
+            </div>
+        </div>
+
+        <!-- 居中 -->
+        <div style="margin-bottom:20px;">
+            <h4 style="color:#d4a84b; font-size:14px;">B. 块级元素水平居中</h4>
+            <div class="code-block" style="font-size:12px;">
+                <span class="selector">.center-block</span> { <br>
+                &nbsp;&nbsp;<span class="property">width</span>: <span class="value">300px</span>; <br>
+                &nbsp;&nbsp;<span class="property">margin</span>: <span class="value">0 auto</span>; <span
+                    class="comment">/* 左右自动 */</span><br>
+                }
+            </div>
+            <div
+                style="width:300px; margin:0 auto; background:#1f6feb; padding:15px; border-radius:6px; text-align:center; color:#fff; margin-top:8px;">
+                水平居中（margin: 0 auto）
+            </div>
+            <p style="font-size:12px; color:#8b949e; margin-top:4px;">
+                💡 必须设 <code>width</code>，否则 <code>margin: 0 auto</code> 不生效。
+            </p>
+        </div>
+
+        <!-- 外边距合并 -->
+        <div>
+            <h4 style="color:#d4a84b; font-size:14px;">C. ⚠️ 外边距合并（Collapsing Margins）</h4>
+            <p style="font-size:13px; color:#8b949e;">
+                上下相邻的两个块级元素，<span class="highlight">外边距会取较大值</span>，而不是相加。
+            </p>
+            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:8px;">
+                <div
+                    style="background:#0d1117; padding:12px; border-radius:6px; border:1px solid #30363d; flex:1; min-width:150px;">
+                    <div
+                        style="background:#da3633; padding:10px; margin-bottom:20px; border-radius:4px; color:#fff; text-align:center; font-size:13px;">
+                        margin-bottom: 20px
+                    </div>
+                    <div
+                        style="background:#1f6feb; padding:10px; margin-top:10px; border-radius:4px; color:#fff; text-align:center; font-size:13px;">
+                        margin-top: 10px
+                    </div>
+                    <p style="font-size:12px; color:#8b949e; text-align:center; margin-top:4px;">
+                        实际间距 = <span style="color:#ff6b6b;">20px</span>（取较大值）
+                    </p>
+                </div>
+                <div
+                    style="background:#0d1117; padding:12px; border-radius:6px; border:1px solid #30363d; flex:1; min-width:150px;">
+                    <p style="font-size:12px; color:#8b949e; margin-bottom:4px;">✅ 解决方案：</p>
+                    <ul style="color:#8b949e; font-size:12px; padding-left:18px; line-height:1.8;">
+                        <li>用 <code>padding</code> 代替 <code>margin</code></li>
+                        <li>父元素加 <code>overflow: hidden</code></li>
+                        <li>用 Flexbox（子元素没有合并问题）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 5. 记忆口诀 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>5️⃣ 记忆口诀 🧠</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+            <div style="background:#0d1117; padding:16px; border-radius:8px; border-left:4px solid #ff6b6b;">
+                <p style="color:#ff6b6b; font-weight:bold; font-size:16px; margin:0;">从外到内</p>
+                <p style="color:#8b949e; font-size:14px; margin:4px 0 0 0;">
+                    <span style="color:#ff6b6b;">margin</span> →
+                    <span style="color:#ffd700;">border</span> →
+                    <span style="color:#64c8ff;">padding</span> →
+                    <span style="color:#1f6feb;">content</span>
+                </p>
+            </div>
+            <div style="background:#0d1117; padding:16px; border-radius:8px; border-left:4px solid #238636;">
+                <p style="color:#238636; font-weight:bold; font-size:16px; margin:0;">速记口诀</p>
+                <p style="color:#8b949e; font-size:14px; margin:4px 0 0 0;">
+                    “<span style="color:#ffd700;">边</span>（边框）
+                    <span style="color:#ff6b6b;">外</span>（外边距）
+                    <span style="color:#64c8ff;">内</span>（内边距）
+                    要分清，<br>
+                    盒子模型记心中。”
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 底部 -->
+    <!-- ============================================================ -->
+    <hr>
+    <div style="text-align:center; color:#8b949e; font-size:13px; padding:10px 0;">
+        💡 记住：<strong style="color:#d4a84b;">一切皆盒子 · 盒子皆四层</strong>
+        <br>
+        <span style="font-size:12px;">用 Live Server 打开，随时改属性看效果</span>
+    </div>
+
+    <a href="../改3.html" class="back-link">← 返回首页</a>
+
+</body>
+
+</html>

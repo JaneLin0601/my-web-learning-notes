@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔗 关系选择器核心要点</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ===== 全局样式 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+       
+
+        .subtitle {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+       
+
+        /* ===== 卡片容器 ===== */
+        .card {
+            background: #161b22;
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            border: 1px solid #30363d;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #d4a84b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h2 code {
+            background: #0d1117;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #f0883e;
+        }
+
+        .card p {
+            color: #8b949e;
+            font-size: 14px;
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        /* ===== 代码块 ===== */
+        .code-block {
+            background: #0d1117;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #e6edf3;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+            margin-top: 10px;
+        }
+
+        .code-block .comment {
+            color: #8b949e;
+        }
+
+        .code-block .selector {
+            color: #ff7b72;
+        }
+
+        .code-block .property {
+            color: #79c0ff;
+        }
+
+        .code-block .value {
+            color: #a5d6ff;
+        }
+
+        .code-block .highlight-selector {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        /* ===== 演示区域 ===== */
+        .demo-box {
+            background: #0d1117;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            margin-top: 10px;
+        }
+
+        .demo-box ul,
+        .demo-box ol {
+            padding-left: 25px;
+            color: #e6edf3;
+            line-height: 2;
+        }
+
+        .demo-box li {
+            padding: 2px 0;
+        }
+
+        /* ===== 属性速查表 ===== */
+        .prop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .prop-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .prop-item {
+            background: #0d1117;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border-left: 3px solid #d4a84b;
+        }
+
+        .prop-item .prop-name {
+            color: #ffd700;
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .prop-item .prop-desc {
+            color: #8b949e;
+            font-size: 13px;
+        }
+
+        .prop-item .prop-example {
+            color: #a5d6ff;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        /* ===== 高亮标记 ===== */
+        .highlight {
+            color: #f0883e;
+            font-weight: bold;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #1f6feb;
+            color: #fff;
+            padding: 0 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        /* ===== 返回首页 ===== */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #d4a84b;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+            border-radius: 30px;
+        }
+
+        .back-link:hover {
+            border-bottom-color: #d4a84b;
+        }
+
+        /* ===== 兄弟选择器演示 ===== */
+        .sibling-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: #0d1117;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+
+        .sibling-demo .item {
+            background: #1f6feb;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .sibling-demo .item:nth-child(2) {
+            background: #da3633;
+        }
+
+        .sibling-demo .item:nth-child(3) {
+            background: #238636;
+        }
+
+        .sibling-demo .item:nth-child(4) {
+            background: #d29922;
+        }
+
+        .sibling-demo .item:nth-child(5) {
+            background: #8b5cf6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🔗 关系选择器核心要点</h1>
+    <p class="subtitle">后代 · 子代 · 相邻兄弟 · 通用兄弟 —— 4 种关系一网打尽</p>
+    <hr>
+
+    <!-- ============================================================ -->
+    <!-- 1. 什么是关系选择器 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>1️⃣ 什么是关系选择器</h2>
+        <p>关系选择器通过 <span class="highlight">元素之间的层级关系</span> 来选中元素，而不需要给每个元素单独加类名。</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div style="background:#0d1117; padding:12px 16px; border-radius:6px; border-left:3px solid #ff6b6b;">
+                <strong style="color:#ff6b6b;">✅ 优点</strong>
+                <p style="font-size:13px; color:#8b949e; margin:4px 0 0 0;">减少类名，HTML 更干净，样式更易维护</p>
+            </div>
+            <div style="background:#0d1117; padding:12px 16px; border-radius:6px; border-left:3px solid #ffd700;">
+                <strong style="color:#ffd700;">⚠️ 注意</strong>
+                <p style="font-size:13px; color:#8b949e; margin:4px 0 0 0;">选择器太深（4层以上）会影响性能，尽量控制在 3 层以内</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 2. 4 种关系选择器速查 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>2️⃣ 4 种关系选择器速查</h2>
+        <div class="prop-grid">
+            <div class="prop-item">
+                <div class="prop-name">后代选择器 <code style="color:#ffd700;">ul li</code></div>
+                <div class="prop-desc">选择 <strong>所有</strong> 后代（不管嵌套多深）</div>
+                <div class="prop-example">ul li → 所有 ul 里的 li</div>
+            </div>
+            <div class="prop-item" style="border-left-color:#ff6b6b;">
+                <div class="prop-name" style="color:#ff6b6b;">子代选择器 <code style="color:#ff6b6b;">ul > li</code></div>
+                <div class="prop-desc">只选择 <strong>直接子代</strong>（一层）</div>
+                <div class="prop-example">ul > li → 只有 ul 直接子级的 li</div>
+            </div>
+            <div class="prop-item" style="border-left-color:#64c8ff;">
+                <div class="prop-name" style="color:#64c8ff;">相邻兄弟选择器 <code style="color:#64c8ff;">h1 + p</code></div>
+                <div class="prop-desc">选择 <strong>紧挨着</strong> 的下一个兄弟</div>
+                <div class="prop-example">h1 + p → h1 后面的第一个 p</div>
+            </div>
+            <div class="prop-item" style="border-left-color:#238636;">
+                <div class="prop-name" style="color:#238636;">通用兄弟选择器 <code style="color:#238636;">h1 ~ p</code></div>
+                <div class="prop-desc">选择 <strong>所有</strong> 后面的兄弟</div>
+                <div class="prop-example">h1 ~ p → h1 后面的所有 p</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 3. 后代选择器 ul li（你问的） -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>3️⃣ 后代选择器 <code>ul li</code></h2>
+        <p><span class="highlight">ul li</span> 选择 <strong>所有在 ul 内部的 li</strong>，不管嵌套了几层。</p>
+
+        <div class="code-block">
+            <span class="comment">/* 所有 ul 里的 li 都变成红色 */</span><br>
+            <span class="selector">ul li</span> { <br>
+            &nbsp;&nbsp;<span class="property">color</span>: <span class="value">#ff6b6b</span>; <br>
+            }
+        </div>
+
+        <div class="demo-box">
+            <p style="color:#8b949e; font-size:13px; margin-bottom:8px;">👇 下面这个 <code>ul</code> 里有嵌套的
+                <code>ol</code>，里面的 <code>li</code> 也会被选中：</p>
+            <ul style="color:#ff6b6b;">
+                <li>第一层 li（红色）</li>
+                <li>第一层 li
+                    <ol>
+                        <li>第二层 li（也变成红色 ✅）</li>
+                        <li>第二层 li（也变成红色 ✅）</li>
+                    </ol>
+                </li>
+                <li>第一层 li（红色）</li>
+            </ul>
+        </div>
+
+        <div
+            style="background:#0d1117; padding:12px 16px; border-radius:6px; border-left:3px solid #ffd700; margin-top:10px;">
+            <p style="font-size:13px; color:#8b949e; margin:0;">
+                💡 想只选第一层，用 <span style="color:#ff6b6b; font-weight:bold;">子代选择器</span> <code
+                    style="color:#ff6b6b;">ul > li</code>（见下一节）
+            </p>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 4. 子代选择器 ul > li -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>4️⃣ 子代选择器 <code>ul > li</code></h2>
+        <p><span class="highlight">ul > li</span> 只选择 <strong>ul 的直接子级 li</strong>，不选嵌套在里面的。</p>
+
+        <div class="code-block">
+            <span class="comment">/* 只选 ul 直接子级的 li，变蓝色 */</span><br>
+            <span class="selector">ul &gt; li</span> { <br>
+            &nbsp;&nbsp;<span class="property">color</span>: <span class="value">#64c8ff</span>; <br>
+            }
+        </div>
+
+        <div class="demo-box">
+            <p style="color:#8b949e; font-size:13px; margin-bottom:8px;">👇 只有 <span style="color:#64c8ff;">第一层
+                    li</span> 变蓝，嵌套里的不变：</p>
+            <ul>
+                <li style="color:#64c8ff;">第一层 li（蓝色 ✅）</li>
+                <li style="color:#64c8ff;">第一层 li（蓝色 ✅）
+                    <ol>
+                        <li style="color:#e6edf3;">第二层 li（不变 ❌）</li>
+                        <li style="color:#e6edf3;">第二层 li（不变 ❌）</li>
+                    </ol>
+                </li>
+                <li style="color:#64c8ff;">第一层 li（蓝色 ✅）</li>
+            </ul>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+            <div style="background:#0d1117; padding:10px 14px; border-radius:6px; border-left:3px solid #ffd700;">
+                <p style="font-size:13px; color:#8b949e; margin:0;">
+                    <span style="color:#ffd700; font-weight:bold;">ul li</span> → 选所有后代（深）
+                </p>
+            </div>
+            <div style="background:#0d1117; padding:10px 14px; border-radius:6px; border-left:3px solid #ff6b6b;">
+                <p style="font-size:13px; color:#8b949e; margin:0;">
+                    <span style="color:#ff6b6b; font-weight:bold;">ul > li</span> → 只选直接子代（浅）
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 5. 相邻兄弟选择器 h1 + p -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>5️⃣ 相邻兄弟选择器 <code>h1 + p</code></h2>
+        <p><span class="highlight">h1 + p</span> 选择 <strong>紧挨着 h1 后面的第一个 p</strong>。</p>
+
+        <div class="code-block">
+            <span class="comment">/* h1 后面的第一个 p 变橙色 */</span><br>
+            <span class="selector">h1 + p</span> { <br>
+            &nbsp;&nbsp;<span class="property">color</span>: <span class="value">#d29922</span>; <br>
+            }
+        </div>
+
+        <div class="demo-box">
+            <h4 style="color:#e6edf3;">标题（h4）</h4>
+            <p style="color:#d29922;">第一个 p → 被选中 ✅</p>
+            <p style="color:#8b949e;">第二个 p → 没被选中 ❌</p>
+            <p style="color:#8b949e;">第三个 p → 没被选中 ❌</p>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 6. 通用兄弟选择器 h1 ~ p -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>6️⃣ 通用兄弟选择器 <code>h1 ~ p</code></h2>
+        <p><span class="highlight">h1 ~ p</span> 选择 <strong>h1 后面所有的 p</strong>。</p>
+
+        <div class="code-block">
+            <span class="comment">/* h1 后面的所有 p 变紫色 */</span><br>
+            <span class="selector">h1 ~ p</span> { <br>
+            &nbsp;&nbsp;<span class="property">color</span>: <span class="value">#8b5cf6</span>; <br>
+            }
+        </div>
+
+        <div class="demo-box">
+            <h4 style="color:#e6edf3;">标题（h4）</h4>
+            <p style="color:#8b5cf6;">第一个 p → 被选中 ✅</p>
+            <p style="color:#8b5cf6;">第二个 p → 被选中 ✅</p>
+            <p style="color:#8b5cf6;">第三个 p → 被选中 ✅</p>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 7. 综合对比 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>7️⃣ 综合对比</h2>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                <thead>
+                    <tr style="border-bottom:2px solid #d4a84b;">
+                        <th style="text-align:left; padding:10px 12px; color:#d4a84b;">选择器</th>
+                        <th style="text-align:left; padding:10px 12px; color:#d4a84b;">名称</th>
+                        <th style="text-align:left; padding:10px 12px; color:#d4a84b;">选择范围</th>
+                        <th style="text-align:left; padding:10px 12px; color:#d4a84b;">示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid #30363d;">
+                        <td style="padding:10px 12px; color:#ffd700; font-family:monospace;">ul li</td>
+                        <td style="padding:10px 12px; color:#e6edf3;">后代选择器</td>
+                        <td style="padding:10px 12px; color:#8b949e;">所有后代（不限层级）</td>
+                        <td style="padding:10px 12px; color:#a5d6ff; font-family:monospace;">ul 里所有的 li</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #30363d;">
+                        <td style="padding:10px 12px; color:#ff6b6b; font-family:monospace;">ul > li</td>
+                        <td style="padding:10px 12px; color:#e6edf3;">子代选择器</td>
+                        <td style="padding:10px 12px; color:#8b949e;">只选直接子代</td>
+                        <td style="padding:10px 12px; color:#a5d6ff; font-family:monospace;">ul 直接子级的 li</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #30363d;">
+                        <td style="padding:10px 12px; color:#64c8ff; font-family:monospace;">h1 + p</td>
+                        <td style="padding:10px 12px; color:#e6edf3;">相邻兄弟选择器</td>
+                        <td style="padding:10px 12px; color:#8b949e;">紧挨着的下一个</td>
+                        <td style="padding:10px 12px; color:#a5d6ff; font-family:monospace;">h1 后面的第一个 p</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px 12px; color:#238636; font-family:monospace;">h1 ~ p</td>
+                        <td style="padding:10px 12px; color:#e6edf3;">通用兄弟选择器</td>
+                        <td style="padding:10px 12px; color:#8b949e;">后面所有的兄弟</td>
+                        <td style="padding:10px 12px; color:#a5d6ff; font-family:monospace;">h1 后面的所有 p</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 8. 实战场景 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>8️⃣ 实战场景</h2>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+            <div style="background:#0d1117; padding:12px 16px; border-radius:8px; border:1px solid #30363d;">
+                <h4 style="color:#d4a84b; font-size:14px;">📌 导航菜单（子代选择器）</h4>
+                <div class="code-block" style="font-size:12px; margin-top:6px;">
+                    <span class="selector">nav > ul > li</span> { <br>
+                    &nbsp;&nbsp;<span class="property">display</span>: <span class="value">inline-block</span>; <br>
+                    }
+                </div>
+                <p style="font-size:12px; color:#8b949e; margin-top:4px;">只选导航第一级菜单，不选下拉子菜单</p>
+            </div>
+            <div style="background:#0d1117; padding:12px 16px; border-radius:8px; border:1px solid #30363d;">
+                <h4 style="color:#d4a84b; font-size:14px;">📌 文章样式（后代选择器）</h4>
+                <div class="code-block" style="font-size:12px; margin-top:6px;">
+                    <span class="selector">.article p</span> { <br>
+                    &nbsp;&nbsp;<span class="property">line-height</span>: <span class="value">1.8</span>; <br>
+                    }
+                </div>
+                <p style="font-size:12px; color:#8b949e; margin-top:4px;">文章容器里所有段落统一行高</p>
+            </div>
+            <div style="background:#0d1117; padding:12px 16px; border-radius:8px; border:1px solid #30363d;">
+                <h4 style="color:#d4a84b; font-size:14px;">📌 标题后间距（相邻兄弟）</h4>
+                <div class="code-block" style="font-size:12px; margin-top:6px;">
+                    <span class="selector">h2 + p</span> { <br>
+                    &nbsp;&nbsp;<span class="property">margin-top</span>: <span class="value">0</span>; <br>
+                    }
+                </div>
+                <p style="font-size:12px; color:#8b949e; margin-top:4px;">标题后面的第一个段落去掉上边距</p>
+            </div>
+            <div style="background:#0d1117; padding:12px 16px; border-radius:8px; border:1px solid #30363d;">
+                <h4 style="color:#d4a84b; font-size:14px;">📌 表单项间距（通用兄弟）</h4>
+                <div class="code-block" style="font-size:12px; margin-top:6px;">
+                    <span class="selector">input + input</span> { <br>
+                    &nbsp;&nbsp;<span class="property">margin-top</span>: <span class="value">10px</span>; <br>
+                    }
+                </div>
+                <p style="font-size:12px; color:#8b949e; margin-top:4px;">每个 input 后面的 input 加间距</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 底部 -->
+    <!-- ============================================================ -->
+    <hr>
+    <div style="text-align:center; color:#8b949e; font-size:13px; padding:10px 0;">
+        💡 记住口诀：<strong style="color:#d4a84b;">后代全选 · 子代一层 · 相邻下一个 · 通用全后</strong>
+        <br>
+        <span style="font-size:12px;">用 Live Server 打开，随时改属性看效果</span>
+    </div>
+
+    <a href="../改3.html" class="back-link">← 返回首页</a>
+
+</body>
+
+</html>

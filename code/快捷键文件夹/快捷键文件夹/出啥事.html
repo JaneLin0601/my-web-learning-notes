@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修复后的动画</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background-color: aqua;
+            border-radius: 23px;
+            /* right: 20px; 删掉，因为没定位 */
+            animation: heart 3s ease-in-out 0s infinite;
+            margin: 50px auto; /* 居中显示 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        div:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes heart {
+            0% {
+                background-color: aqua;
+                transform: scale(1);
+            }
+            30% {
+                background-color: blue;
+                transform: scale(1.1);
+            }
+            50% {
+                background-color: aqua;
+                transform: scale(1);
+            }
+            80% {
+                background-color: green;
+                transform: scale(1.1);
+            }
+            100% {
+                background-color: red;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>悬停暂停</div>
+</body>
+</html>

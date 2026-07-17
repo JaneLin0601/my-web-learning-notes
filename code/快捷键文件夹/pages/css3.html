@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 CSS3 动画与变换 完整笔记</title>
+    <style>
+        /* ===== 全局重置 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '微软雅黑', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            background-image: url('img/4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: rgba(10, 8, 7, 0.55);
+            background-blend-mode: overlay;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ===== 主容器：毛玻璃 ===== */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 35px 40px;
+            background: rgba(22, 27, 34, 0.50);
+            backdrop-filter: blur(14px) saturate(1.2);
+            -webkit-backdrop-filter: blur(14px) saturate(1.2);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            color: #e6edf3;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            color: #f0e6d3;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.40);
+            font-size: 14px;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212, 168, 75, 0.25), transparent);
+            margin: 24px 0;
+        }
+
+        /* ===== 卡片 ===== */
+        .card {
+            background: rgba(13, 17, 23, 0.40);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: rgba(13, 17, 23, 0.60);
+            border-color: rgba(212, 168, 75, 0.10);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #d4a84b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #f0883e;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.60);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .card strong {
+            color: #f0e6d3;
+        }
+
+        /* ===== 代码块 ===== */
+        .code-block {
+            background: rgba(0, 0, 0, 0.50);
+            backdrop-filter: blur(4px);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #e6edf3;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+
+        .code-block .comment {
+            color: rgba(255, 255, 255, 0.30);
+        }
+        .code-block .selector {
+            color: #ff7b72;
+        }
+        .code-block .property {
+            color: #79c0ff;
+        }
+        .code-block .value {
+            color: #a5d6ff;
+        }
+        .code-block .keyword {
+            color: #ff7b72;
+        }
+
+        /* ===== 属性网格 ===== */
+        .prop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 700px) {
+            .prop-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .prop-card {
+            background: rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .prop-card:hover {
+            border-color: rgba(212, 168, 75, 0.12);
+        }
+
+        .prop-card h4 {
+            color: #d4a84b;
+            font-size: 15px;
+            margin-bottom: 4px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .prop-card .prop-desc {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .prop-card .prop-code {
+            color: rgba(255, 255, 255, 0.30);
+            font-size: 12px;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* ===== 演示区 ===== */
+        .demo-area {
+            background: rgba(0, 0, 0, 0.30);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .demo-item {
+            text-align: center;
+        }
+
+        .demo-item p {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.20);
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+
+        /* ===== 各个演示样式 ===== */
+        .demo-box {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(31, 111, 235, 0.5);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        /* transform 演示 */
+        .demo-transform-2d:hover {
+            transform: rotate(45deg) scale(1.2) translateX(20px);
+            background: rgba(218, 54, 51, 0.6);
+        }
+
+        /* transition 演示 */
+        .demo-transition {
+            background: rgba(212, 168, 75, 0.3);
+        }
+        .demo-transition:hover {
+            background: rgba(212, 168, 75, 0.8);
+            border-radius: 50%;
+            transform: scale(1.1);
+        }
+
+        /* 动画演示 */
+        .demo-animation {
+            background: linear-gradient(135deg, #1f6feb, #8b5cf6);
+            animation: demoPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes demoPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                border-radius: 12px;
+            }
+            50% {
+                transform: scale(1.1);
+                border-radius: 50%;
+                background: linear-gradient(135deg, #ff6b00, #ff1493);
+            }
+        }
+
+        /* 星形 */
+        .demo-star {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ffd700, #ff6b00);
+            clip-path: polygon(
+                50% 0%, 61% 35%, 98% 35%, 68% 57%,
+                79% 91%, 50% 70%, 21% 91%, 32% 57%,
+                2% 35%, 39% 35%
+            );
+            animation: starSpin 3s linear infinite;
+        }
+
+        @keyframes starSpin {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.15);
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+
+        .demo-star:hover {
+            animation-play-state: paused;
+        }
+
+        /* 3D 变换 */
+        .demo-3d {
+            background: rgba(35, 134, 54, 0.5);
+            transition: transform 0.8s ease;
+            transform-style: preserve-3d;
+            perspective: 500px;
+        }
+
+        .demo-3d:hover {
+            transform: rotateX(30deg) rotateY(40deg) scale(1.05);
+            background: rgba(35, 134, 54, 0.8);
+            box-shadow: 0 20px 60px rgba(35, 134, 54, 0.3);
+        }
+
+        /* ===== 标签 ===== */
+        .tag {
+            display: inline-block;
+            padding: 0 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tag-new {
+            background: rgba(35, 134, 54, 0.15);
+            color: #238636;
+        }
+        .tag-hot {
+            background: rgba(255, 215, 0, 0.12);
+            color: #ffd700;
+        }
+        .tag-common {
+            background: rgba(100, 200, 255, 0.10);
+            color: #64c8ff;
+        }
+        .tag-3d {
+            background: rgba(138, 43, 226, 0.15);
+            color: #8b5cf6;
+        }
+
+        /* ===== 口诀 ===== */
+        .juekou {
+            text-align: center;
+            font-size: 18px;
+            color: #d4a84b;
+            letter-spacing: 3px;
+            padding: 14px;
+            background: rgba(212, 168, 75, 0.04);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 168, 75, 0.06);
+        }
+
+        .juekou span {
+            color: #f0e6d3;
+        }
+
+        /* ===== 返回链接 ===== */
+        .back-link-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 8px 22px;
+            background: rgba(212, 168, 75, 0.10);
+            border: 1px solid rgba(212, 168, 75, 0.15);
+            border-radius: 8px;
+            color: #d4a84b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .back-link:hover {
+            background: #d4a84b;
+            color: #0d1117;
+            box-shadow: 0 0 30px rgba(212, 168, 75, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* ===== 备注 ===== */
+        .note-box {
+            background: rgba(255, 215, 0, 0.03);
+            border-left: 3px solid rgba(212, 168, 75, 0.15);
+            padding: 10px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 10px;
+        }
+
+        .note-box p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.35);
+            margin: 0;
+        }
+
+        /* ===== 对比表格 ===== */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .compare-table th {
+            text-align: left;
+            padding: 8px 12px;
+            color: #d4a84b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .compare-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .compare-table td:first-child {
+            color: #f0e6d3;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>🎬 CSS3 动画与变换 · 完整笔记</h1>
+        <p class="subtitle">transform · transition · animation · 2D / 3D · clip-path 星形</p>
+        <hr>
+
+        <!-- ============================================================ -->
+        <!-- 1. transform 变换 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>1️⃣ transform — 变换</h2>
+            <p>
+                <strong>transform</strong> 让元素可以 <strong>旋转、缩放、位移、倾斜</strong>，不改变文档流布局。
+            </p>
+
+            <div class="prop-grid">
+                <div class="prop-card">
+                    <h4>rotate(deg) <span class="tag tag-common">旋转</span></h4>
+                    <div class="prop-desc">围绕中心旋转</div>
+                    <div class="prop-code">transform: rotate(45deg);</div>
+                </div>
+                <div class="prop-card">
+                    <h4>scale(n) <span class="tag tag-common">缩放</span></h4>
+                    <div class="prop-desc">放大/缩小</div>
+                    <div class="prop-code">transform: scale(1.2);</div>
+                </div>
+                <div class="prop-card">
+                    <h4>translate(x, y) <span class="tag tag-common">位移</span></h4>
+                    <div class="prop-desc">移动位置</div>
+                    <div class="prop-code">transform: translate(20px, 10px);</div>
+                </div>
+                <div class="prop-card">
+                    <h4>skew(deg) <span class="tag tag-common">倾斜</span></h4>
+                    <div class="prop-desc">拉伸倾斜</div>
+                    <div class="prop-code">transform: skew(10deg);</div>
+                </div>
+            </div>
+
+            <div class="demo-area">
+                <div class="demo-item">
+                    <div class="demo-box demo-transform-2d">悬停我</div>
+                    <p>rotate + scale + translate</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <span class="comment">/* 2D 变换组合 */</span><br>
+                <span class="selector">.box:hover</span> { <br>
+                &nbsp;&nbsp;<span class="property">transform</span>: <span class="value">rotate(45deg) scale(1.2) translateX(20px)</span>; <br>
+                }
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 2. transition 过渡 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>2️⃣ transition — 过渡</h2>
+            <p>
+                <strong>transition</strong> 让属性变化时 <strong>平滑过渡</strong>，而不是瞬间跳变。
+            </p>
+
+            <div class="prop-grid">
+                <div class="prop-card">
+                    <h4>transition-property</h4>
+                    <div class="prop-desc">要过渡的属性</div>
+                    <div class="prop-code">all / background / transform</div>
+                </div>
+                <div class="prop-card">
+                    <h4>transition-duration</h4>
+                    <div class="prop-desc">过渡时长</div>
+                    <div class="prop-code">0.5s / 1s / 300ms</div>
+                </div>
+                <div class="prop-card">
+                    <h4>transition-timing-function</h4>
+                    <div class="prop-desc">速度曲线</div>
+                    <div class="prop-code">ease / linear / ease-in / ease-out</div>
+                </div>
+                <div class="prop-card">
+                    <h4>transition-delay</h4>
+                    <div class="prop-desc">延迟时间</div>
+                    <div class="prop-code">0s / 0.2s</div>
+                </div>
+            </div>
+
+            <div class="demo-area">
+                <div class="demo-item">
+                    <div class="demo-box demo-transition">悬停我</div>
+                    <p>颜色 + 圆角 + 缩放</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <span class="comment">/* 简写：property duration timing delay */</span><br>
+                <span class="selector">.box</span> { <br>
+                &nbsp;&nbsp;<span class="property">transition</span>: <span class="value">all 0.5s ease 0s</span>; <br>
+                }<br>
+                <span class="selector">.box:hover</span> { <br>
+                &nbsp;&nbsp;<span class="property">transform</span>: <span class="value">scale(1.1)</span>; <br>
+                }
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. animation + @keyframes 动画 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>3️⃣ animation + @keyframes — 动画</h2>
+            <p>
+                <strong>@keyframes</strong> 定义动画关键帧，<strong>animation</strong> 调用并控制播放。
+            </p>
+
+            <div class="prop-grid">
+                <div class="prop-card">
+                    <h4>animation-name</h4>
+                    <div class="prop-desc">动画名称</div>
+                    <div class="prop-code">heart / slide / pulse</div>
+                </div>
+                <div class="prop-card">
+                    <h4>animation-duration</h4>
+                    <div class="prop-desc">播放时长</div>
+                    <div class="prop-code">3s / 1.5s</div>
+                </div>
+                <div class="prop-card">
+                    <h4>animation-timing-function</h4>
+                    <div class="prop-desc">速度曲线</div>
+                    <div class="prop-code">ease / linear / ease-in-out</div>
+                </div>
+                <div class="prop-card">
+                    <h4>animation-iteration-count</h4>
+                    <div class="prop-desc">播放次数</div>
+                    <div class="prop-code">infinite / 2 / 3</div>
+                </div>
+                <div class="prop-card">
+                    <h4>animation-direction</h4>
+                    <div class="prop-desc">播放方向</div>
+                    <div class="prop-code">normal / reverse / alternate</div>
+                </div>
+                <div class="prop-card">
+                    <h4>animation-play-state</h4>
+                    <div class="prop-desc">播放状态</div>
+                    <div class="prop-code">running / paused</div>
+                </div>
+            </div>
+
+            <div class="demo-area">
+                <div class="demo-item">
+                    <div class="demo-box demo-animation">动起来</div>
+                    <p>自动呼吸 + 变色 + 变圆</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <span class="comment">/* 定义动画 */</span><br>
+                <span class="selector">@keyframes pulse</span> { <br>
+                &nbsp;&nbsp;<span class="value">0%</span> { <span class="property">transform</span>: <span class="value">scale(1)</span>; } <br>
+                &nbsp;&nbsp;<span class="value">50%</span> { <span class="property">transform</span>: <span class="value">scale(1.2)</span>; } <br>
+                &nbsp;&nbsp;<span class="value">100%</span> { <span class="property">transform</span>: <span class="value">scale(1)</span>; } <br>
+                }<br><br>
+                <span class="comment">/* 调用动画 */</span><br>
+                <span class="selector">.box</span> { <br>
+                &nbsp;&nbsp;<span class="property">animation</span>: <span class="value">pulse 2s ease-in-out 0s infinite</span>; <br>
+                }
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4. 悬停暂停 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>4️⃣ 悬停暂停 — <code>animation-play-state: paused</code></h2>
+            <p>
+                鼠标悬停时 <strong>暂停动画</strong>，移出后继续播放。
+            </p>
+            <div class="code-block">
+                <span class="selector">.box:hover</span> { <br>
+                &nbsp;&nbsp;<span class="property">animation-play-state</span>: <span class="value">paused</span>; <br>
+                }
+            </div>
+            <div class="demo-area">
+                <div class="demo-item">
+                    <div class="demo-box demo-animation" style="cursor:pointer;">悬停暂停</div>
+                    <p>悬停 → 动画暂停</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 5. clip-path 星形 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>5️⃣ clip-path — 星形裁剪</h2>
+            <p>
+                <strong>clip-path</strong> 用 <code>polygon()</code> 坐标点裁剪出 <strong>星形</strong>，
+                配合动画可做旋转呼吸星。
+            </p>
+
+            <div class="demo-area">
+                <div class="demo-item">
+                    <div class="demo-star"></div>
+                    <p>⭐ 星形 · 悬停暂停</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <span class="comment">/* 星形 clip-path：10 个坐标点 */</span><br>
+                <span class="selector">.star</span> { <br>
+                &nbsp;&nbsp;<span class="property">clip-path</span>: <span class="value">polygon(</span> <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="value">50% 0%, 61% 35%, 98% 35%,</span> <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="value">68% 57%, 79% 91%, 50% 70%,</span> <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="value">21% 91%, 32% 57%, 2% 35%, 39% 35%</span> <br>
+                &nbsp;&nbsp;); <br>
+                }<br><br>
+                <span class="comment">/* 星形旋转动画 */</span><br>
+                <span class="selector">@keyframes starSpin</span> { <br>
+                &nbsp;&nbsp;<span class="value">0%</span> { <span class="property">transform</span>: <span class="value">rotate(0deg)</span>; } <br>
+                &nbsp;&nbsp;<span class="value">100%</span> { <span class="property">transform</span>: <span class="value">rotate(360deg)</span>; } <br>
+                }
+            </div>
+            <div class="note-box">
+                <p>💡 <strong>口诀</strong>：10 个点画星形，5 个外凸 + 5 个内凹，交替排列。</p>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 6. 3D 变换 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>6️⃣ 3D 变换 <span class="tag tag-3d">进阶</span></h2>
+            <p>
+                在 2D 变换基础上增加 <strong>Z 轴</strong>，实现立体旋转效果。
+            </p>
+
+            <div class="prop-grid">
+                <div class="prop-card">
+                    <h4>rotateX(deg)</h4>
+                    <div class="prop-desc">绕 X 轴旋转</div>
+                    <div class="prop-code">transform: rotateX(45deg);</div>
+                </div>
+                <div class="prop-card">
+                    <h4>rotateY(deg)</h4>
+                    <div class="prop-desc">绕 Y 轴旋转</div>
+                    <div class="prop-code">transform: rotateY(45deg);</div>
+                </div>
+                <div class="prop-card">
+                    <h4>perspective</h4>
+                    <div class="prop-desc">透视深度（父级设置）</div>
+                    <div class="prop-code">perspective: 500px;</div>
+                </div>
+                <div class="prop-card">
+                    <h4>transform-style</h4>
+                    <div class="prop-desc">3D 空间保留</div>
+                    <div class="prop-code">transform-style: preserve-3d;</div>
+                </div>
+            </div>
+
+            <div class="demo-area">
+                <div class="demo-item">
+                    <div class="demo-box demo-3d">3D</div>
+                    <p>悬停 → 立体旋转</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <span class="comment">/* 3D 旋转 */</span><br>
+                <span class="selector">.box-3d:hover</span> { <br>
+                &nbsp;&nbsp;<span class="property">transform</span>: <span class="value">rotateX(30deg) rotateY(40deg) scale(1.05)</span>; <br>
+                &nbsp;&nbsp;<span class="property">box-shadow</span>: <span class="value">0 20px 60px rgba(0,0,0,0.4)</span>; <br>
+                }
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 7. 对比总结 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>7️⃣ 对比总结</h2>
+            <table class="compare-table">
+                <tr>
+                    <th>属性</th>
+                    <th>作用</th>
+                    <th>触发方式</th>
+                </tr>
+                <tr>
+                    <td>transform</td>
+                    <td>旋转/缩放/位移/倾斜</td>
+                    <td>直接改变</td>
+                </tr>
+                <tr>
+                    <td>transition</td>
+                    <td>属性变化平滑过渡</td>
+                    <td>悬停 / 点击 / JS</td>
+                </tr>
+                <tr>
+                    <td>animation</td>
+                    <td>复杂关键帧动画</td>
+                    <td>页面加载自动播放</td>
+                </tr>
+                <tr>
+                    <td>clip-path</td>
+                    <td>裁剪出任意形状</td>
+                    <td>配合 transform 做形状动画</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 8. 记忆口诀 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>8️⃣ 记忆口诀 🧠</h2>
+            <div class="juekou">
+                “<span>transform</span> 变换 <span>rotate</span> 旋转，<span>scale</span> 缩放 <span>translate</span> 位移，<br>
+                <span>transition</span> 过渡做衔接，<span>@keyframes</span> 动画定义，<br>
+                <span>animation</span> 调用无限次，<span>clip-path</span> 剪出星星来。”
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:12px;">
+                <span class="tag tag-common">transform</span>
+                <span class="tag tag-common">transition</span>
+                <span class="tag tag-hot">animation</span>
+                <span class="tag tag-new">@keyframes</span>
+                <span class="tag tag-3d">clip-path</span>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 底部返回 -->
+        <!-- ============================================================ -->
+        <hr>
+        <div class="back-link-wrap">
+            <a href="../改3.html" class="back-link">← 返回首页</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

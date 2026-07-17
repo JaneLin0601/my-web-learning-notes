@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 CSS 英语单词速查表</title>
+    <style>
+        /* ===== 全局重置 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '微软雅黑', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            padding: 30px 20px;
+
+            background-image: url('./img/4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: rgba(10, 8, 7, 0.55);
+            background-blend-mode: overlay;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ===== 主容器：毛玻璃 ===== */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 35px 40px;
+            background: rgba(22, 27, 34, 0.50);
+            backdrop-filter: blur(14px) saturate(1.2);
+            -webkit-backdrop-filter: blur(14px) saturate(1.2);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            color: #e6edf3;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            color: #f0e6d3;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.40);
+            font-size: 14px;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212, 168, 75, 0.25), transparent);
+            margin: 24px 0;
+        }
+
+        /* ===== 分类标题 ===== */
+        .section-title {
+            font-size: 20px;
+            color: #d4a84b;
+            margin: 24px 0 14px 0;
+            padding-left: 14px;
+            border-left: 3px solid #d4a84b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ===== 单词网格 ===== */
+        .word-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .word-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .word-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .word-card {
+            background: rgba(13, 17, 23, 0.45);
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .word-card:hover {
+            background: rgba(13, 17, 23, 0.70);
+            border-color: rgba(212, 168, 75, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .word-card .en {
+            color: #79c0ff;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .word-card .cn {
+            color: rgba(255, 255, 255, 0.50);
+            font-size: 13px;
+            margin: 2px 0;
+        }
+
+        .word-card .example {
+            color: rgba(211, 56, 216, 1);
+            font-family: 'Consolas', '黑体', monospace;
+            font-size: 12px;
+            margin-top: 4px;
+            padding: 4px 8px;
+            background: rgba(104, 105, 75, 0.2);
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* ===== 特殊标注 ===== */
+        .tag {
+            display: inline-block;
+            padding: 0 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+        .tag-hot {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+        }
+        .tag-new {
+            background: rgba(35, 134, 54, 0.15);
+            color: #238636;
+        }
+        .tag-common {
+            background: rgba(100, 200, 255, 0.10);
+            color: #64c8ff;
+        }
+
+        /* ===== 返回链接 ===== */
+        .back-link-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 8px 22px;
+            background: rgba(212, 168, 75, 0.10);
+            border: 1px solid rgba(212, 168, 75, 0.15);
+            border-radius: 8px;
+            color: #d4a84b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .back-link:hover {
+            background: #d4a84b;
+            color: #0d1117;
+            box-shadow: 0 0 30px rgba(212, 168, 75, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* ===== 统计 ===== */
+        .stats {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.20);
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        .stats span {
+            color: #d4a84b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>📖 CSS 英语单词速查表</h1>
+        <p class="subtitle">按功能分类 · 含代码示例 · 共 90+ 个常用属性</p>
+        <hr>
+
+        <!-- ============================================================ -->
+        <!-- 1. 颜色 & 透明度 -->
+        <!-- ============================================================ -->
+        <div class="section-title">🎨 1. 颜色 & 透明度</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">color</span><div class="cn">文字颜色</div><span class="example">color: #fff;</span></div>
+            <div class="word-card"><span class="en">background-color</span><div class="cn">背景颜色</div><span class="example">background-color: #0d1117;</span></div>
+            <div class="word-card"><span class="en">background-image</span><div class="cn">背景图片</div><span class="example">background-image: url('4.jpg');</span></div>
+            <div class="word-card"><span class="en">background-size</span><div class="cn">背景图尺寸</div><span class="example">background-size: cover;</span></div>
+            <div class="word-card"><span class="en">background-position</span><div class="cn">背景图位置</div><span class="example">background-position: center;</span></div>
+            <div class="word-card"><span class="en">background-attachment</span><div class="cn">背景图固定</div><span class="example">background-attachment: fixed;</span></div>
+            <div class="word-card"><span class="en">background-repeat</span><div class="cn">背景是否重复</div><span class="example">background-repeat: no-repeat;</span></div>
+            <div class="word-card"><span class="en">background-blend-mode</span><div class="cn">背景混合模式</div><span class="example">background-blend-mode: overlay;</span></div>
+            <div class="word-card"><span class="en">opacity</span><div class="cn">透明度（0~1）</div><span class="example">opacity: 0.6;</span></div>
+            <div class="word-card"><span class="en">rgba()</span><div class="cn">带透明度的颜色</div><span class="example">rgba(255,255,255,0.3)</span></div>
+            <div class="word-card"><span class="en">transparent</span><div class="cn">完全透明</div><span class="example">background: transparent;</span></div>
+            <div class="word-card"><span class="en">visibility</span><div class="cn">可见/隐藏（占空间）</div><span class="example">visibility: hidden;</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 2. 盒子模型 -->
+        <!-- ============================================================ -->
+        <div class="section-title">📦 2. 盒子模型</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">width</span><div class="cn">宽度</div><span class="example">width: 200px;</span></div>
+            <div class="word-card"><span class="en">height</span><div class="cn">高度</div><span class="example">height: 100px;</span></div>
+            <div class="word-card"><span class="en">min-height</span><div class="cn">最小高度</div><span class="example">min-height: 100vh;</span></div>
+            <div class="word-card"><span class="en">max-width</span><div class="cn">最大宽度</div><span class="example">max-width: 1200px;</span></div>
+            <div class="word-card"><span class="en">margin</span><div class="cn">外边距</div><span class="example">margin: 20px auto;</span></div>
+            <div class="word-card"><span class="en">padding</span><div class="cn">内边距</div><span class="example">padding: 20px 30px;</span></div>
+            <div class="word-card"><span class="en">border</span><div class="cn">边框</div><span class="example">border: 1px solid #30363d;</span></div>
+            <div class="word-card"><span class="en">border-radius</span><div class="cn">圆角</div><span class="example">border-radius: 12px;</span></div>
+            <div class="word-card"><span class="en">box-sizing</span><div class="cn">尺寸计算方式</div><span class="example">box-sizing: border-box;</span></div>
+            <div class="word-card"><span class="en">box-shadow</span><div class="cn">盒子阴影</div><span class="example">box-shadow: 0 8px 30px rgba(0,0,0,0.5);</span></div>
+            <div class="word-card"><span class="en">display</span><div class="cn">显示方式</div><span class="example">display: flex / block / none;</span></div>
+            <div class="word-card"><span class="en">overflow</span><div class="cn">溢出处理</div><span class="example">overflow: hidden / auto;</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. Flexbox -->
+        <!-- ============================================================ -->
+        <div class="section-title">📐 3. Flexbox 弹性盒子 <span class="tag tag-hot">重点</span></div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">flex</span><div class="cn">弹性布局（简写）</div><span class="example">flex: 1;</span></div>
+            <div class="word-card"><span class="en">flex-direction</span><div class="cn">主轴方向</div><span class="example">flex-direction: row / column;</span></div>
+            <div class="word-card"><span class="en">flex-wrap</span><div class="cn">是否换行</div><span class="example">flex-wrap: wrap;</span></div>
+            <div class="word-card"><span class="en">justify-content</span><div class="cn">主轴对齐</div><span class="example">justify-content: center / space-between;</span></div>
+            <div class="word-card"><span class="en">align-items</span><div class="cn">交叉轴对齐</div><span class="example">align-items: center;</span></div>
+            <div class="word-card"><span class="en">align-content</span><div class="cn">多行对齐</div><span class="example">align-content: space-around;</span></div>
+            <div class="word-card"><span class="en">align-self</span><div class="cn">单个元素对齐</div><span class="example">align-self: flex-end;</span></div>
+            <div class="word-card"><span class="en">gap</span><div class="cn">子元素间距</div><span class="example">gap: 20px;</span></div>
+            <div class="word-card"><span class="en">order</span><div class="cn">排列顺序</div><span class="example">order: -1;</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4. 定位 -->
+        <!-- ============================================================ -->
+        <div class="section-title">📍 4. 定位 Position</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">position</span><div class="cn">定位方式</div><span class="example">position: relative / absolute / fixed;</span></div>
+            <div class="word-card"><span class="en">top</span><div class="cn">距离顶部</div><span class="example">top: 20px;</span></div>
+            <div class="word-card"><span class="en">bottom</span><div class="cn">距离底部</div><span class="example">bottom: 30px;</span></div>
+            <div class="word-card"><span class="en">left</span><div class="cn">距离左侧</div><span class="example">left: 50px;</span></div>
+            <div class="word-card"><span class="en">right</span><div class="cn">距离右侧</div><span class="example">right: 20px;</span></div>
+            <div class="word-card"><span class="en">z-index</span><div class="cn">层级（越大越靠上）</div><span class="example">z-index: 999;</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 5. 变换 Transform -->
+        <!-- ============================================================ -->
+        <div class="section-title">✨ 5. 变换 Transform <span class="tag tag-new">CSS3</span></div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">transform</span><div class="cn">变换（总开关）</div><span class="example">transform: rotate(45deg);</span></div>
+            <div class="word-card"><span class="en">rotate()</span><div class="cn">旋转（deg）</div><span class="example">rotate(45deg)</span></div>
+            <div class="word-card"><span class="en">scale()</span><div class="cn">缩放（倍数）</div><span class="example">scale(1.2)</span></div>
+            <div class="word-card"><span class="en">translate()</span><div class="cn">位移（px / %）</div><span class="example">translate(20px, 10px)</span></div>
+            <div class="word-card"><span class="en">skew()</span><div class="cn">倾斜（deg）</div><span class="example">skew(10deg)</span></div>
+            <div class="word-card"><span class="en">rotateX()</span><div class="cn">绕 X 轴旋转</div><span class="example">rotateX(30deg)</span></div>
+            <div class="word-card"><span class="en">rotateY()</span><div class="cn">绕 Y 轴旋转</div><span class="example">rotateY(40deg)</span></div>
+            <div class="word-card"><span class="en">perspective</span><div class="cn">3D 透视深度</div><span class="example">perspective: 500px;</span></div>
+            <div class="word-card"><span class="en">transform-style</span><div class="cn">3D 空间保留</div><span class="example">transform-style: preserve-3d;</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 6. 过渡 & 动画 -->
+        <!-- ============================================================ -->
+        <div class="section-title">🎬 6. 过渡 & 动画 <span class="tag tag-hot">重点</span></div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">transition</span><div class="cn">过渡（总开关）</div><span class="example">transition: all 0.5s ease;</span></div>
+            <div class="word-card"><span class="en">transition-property</span><div class="cn">要过渡的属性</div><span class="example">transition-property: transform;</span></div>
+            <div class="word-card"><span class="en">transition-duration</span><div class="cn">过渡时长</div><span class="example">transition-duration: 0.5s;</span></div>
+            <div class="word-card"><span class="en">transition-timing-function</span><div class="cn">速度曲线</div><span class="example">ease / linear / ease-in-out</span></div>
+            <div class="word-card"><span class="en">transition-delay</span><div class="cn">延迟时间</div><span class="example">transition-delay: 0.2s;</span></div>
+            <div class="word-card"><span class="en">animation</span><div class="cn">动画（总开关）</div><span class="example">animation: pulse 2s infinite;</span></div>
+            <div class="word-card"><span class="en">animation-name</span><div class="cn">动画名称</div><span class="example">animation-name: pulse;</span></div>
+            <div class="word-card"><span class="en">animation-duration</span><div class="cn">播放时长</div><span class="example">animation-duration: 2s;</span></div>
+            <div class="word-card"><span class="en">animation-timing-function</span><div class="cn">速度曲线</div><span class="example">ease-in-out</span></div>
+            <div class="word-card"><span class="en">animation-delay</span><div class="cn">延迟播放</div><span class="example">animation-delay: 0.5s;</span></div>
+            <div class="word-card"><span class="en">animation-iteration-count</span><div class="cn">播放次数</div><span class="example">infinite / 2 / 3</span></div>
+            <div class="word-card"><span class="en">animation-direction</span><div class="cn">播放方向</div><span class="example">alternate / reverse</span></div>
+            <div class="word-card"><span class="en">animation-play-state</span><div class="cn">播放状态</div><span class="example">paused / running</span></div>
+            <div class="word-card"><span class="en">@keyframes</span><div class="cn">定义关键帧动画</div><span class="example">@keyframes pulse { 0%{...} }</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 7. 裁剪 & 形状 -->
+        <!-- ============================================================ -->
+        <div class="section-title">✂️ 7. 裁剪 & 形状</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">clip-path</span><div class="cn">裁剪路径</div><span class="example">clip-path: polygon(50% 0%, ...);</span></div>
+            <div class="word-card"><span class="en">polygon()</span><div class="cn">多边形裁剪</div><span class="example">polygon(50% 0%, 100% 50%)</span></div>
+            <div class="word-card"><span class="en">circle()</span><div class="cn">圆形裁剪</div><span class="example">clip-path: circle(50%);</span></div>
+            <div class="word-card"><span class="en">ellipse()</span><div class="cn">椭圆裁剪</div><span class="example">clip-path: ellipse(50% 30%);</span></div>
+            <div class="word-card"><span class="en">inset()</span><div class="cn">矩形裁剪</div><span class="example">clip-path: inset(20px);</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 8. 文字 & 字体 -->
+        <!-- ============================================================ -->
+        <div class="section-title">🔤 8. 文字 & 字体</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">font-family</span><div class="cn">字体</div><span class="example">font-family: '微软雅黑', sans-serif;</span></div>
+            <div class="word-card"><span class="en">font-size</span><div class="cn">字号</div><span class="example">font-size: 16px;</span></div>
+            <div class="word-card"><span class="en">font-weight</span><div class="cn">字重/粗细</div><span class="example">font-weight: bold / 600;</span></div>
+            <div class="word-card"><span class="en">text-align</span><div class="cn">文字对齐</div><span class="example">text-align: center / right;</span></div>
+            <div class="word-card"><span class="en">text-decoration</span><div class="cn">文字装饰</div><span class="example">text-decoration: none / underline;</span></div>
+            <div class="word-card"><span class="en">text-shadow</span><div class="cn">文字阴影</div><span class="example">text-shadow: 0 0 20px rgba(0,0,0,0.3);</span></div>
+            <div class="word-card"><span class="en">line-height</span><div class="cn">行高</div><span class="example">line-height: 1.8;</span></div>
+            <div class="word-card"><span class="en">letter-spacing</span><div class="cn">字间距</div><span class="example">letter-spacing: 2px;</span></div>
+            <div class="word-card"><span class="en">white-space</span><div class="cn">空白处理</div><span class="example">white-space: nowrap;</span></div>
+            <div class="word-card"><span class="en">word-break</span><div class="cn">单词换行</div><span class="example">word-break: break-all;</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 9. 滤镜 & 图片 -->
+        <!-- ============================================================ -->
+        <div class="section-title">🖼️ 9. 滤镜 & 图片</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">filter</span><div class="cn">滤镜（总开关）</div><span class="example">filter: blur(4px);</span></div>
+            <div class="word-card"><span class="en">blur()</span><div class="cn">模糊（px）</div><span class="example">blur(4px)</span></div>
+            <div class="word-card"><span class="en">brightness()</span><div class="cn">亮度（0~2）</div><span class="example">brightness(1.2)</span></div>
+            <div class="word-card"><span class="en">contrast()</span><div class="cn">对比度（0~2）</div><span class="example">contrast(1.5)</span></div>
+            <div class="word-card"><span class="en">grayscale()</span><div class="cn">灰度（0~1）</div><span class="example">grayscale(1)</span></div>
+            <div class="word-card"><span class="en">drop-shadow()</span><div class="cn">投影</div><span class="example">drop-shadow(0 0 30px #ffd700)</span></div>
+            <div class="word-card"><span class="en">object-fit</span><div class="cn">图片适应方式</div><span class="example">object-fit: cover / contain;</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 10. 毛玻璃 & 特效 -->
+        <!-- ============================================================ -->
+        <div class="section-title">🧊 10. 毛玻璃 & 特效 <span class="tag tag-new">高级</span></div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">backdrop-filter</span><div class="cn">背景模糊（毛玻璃核心）</div><span class="example">backdrop-filter: blur(14px);</span></div>
+            <div class="word-card"><span class="en">-webkit-backdrop-filter</span><div class="cn">Safari 兼容前缀</div><span class="example">-webkit-backdrop-filter: blur(14px);</span></div>
+            <div class="word-card"><span class="en">saturate()</span><div class="cn">饱和度</div><span class="example">saturate(1.2)</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 11. 清除浮动 -->
+        <!-- ============================================================ -->
+        <div class="section-title">🧹 11. 清除浮动</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">float</span><div class="cn">浮动</div><span class="example">float: left / right;</span></div>
+            <div class="word-card"><span class="en">clear</span><div class="cn">清除浮动</div><span class="example">clear: both;</span></div>
+            <div class="word-card"><span class="en">::after</span><div class="cn">伪元素</div><span class="example">.clearfix::after { content: ""; }</span></div>
+            <div class="word-card"><span class="en">content</span><div class="cn">伪元素内容</div><span class="example">content: "";</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 12. 响应式 -->
+        <!-- ============================================================ -->
+        <div class="section-title">📱 12. 响应式 & 媒体查询</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">@media</span><div class="cn">媒体查询</div><span class="example">@media (max-width: 768px)</span></div>
+            <div class="word-card"><span class="en">min-width</span><div class="cn">最小宽度</div><span class="example">@media (min-width: 600px)</span></div>
+            <div class="word-card"><span class="en">max-width</span><div class="cn">最大宽度</div><span class="example">@media (max-width: 480px)</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 13. 其他常用 -->
+        <!-- ============================================================ -->
+        <div class="section-title">💡 13. 其他常用属性</div>
+        <div class="word-grid">
+            <div class="word-card"><span class="en">cursor</span><div class="cn">鼠标指针样式</div><span class="example">cursor: pointer / grab;</span></div>
+            <div class="word-card"><span class="en">list-style</span><div class="cn">列表样式</div><span class="example">list-style: none;</span></div>
+            <div class="word-card"><span class="en">outline</span><div class="cn">外轮廓</div><span class="example">outline: none;</span></div>
+            <div class="word-card"><span class="en">resize</span><div class="cn">是否可调整大小</div><span class="example">resize: none;</span></div>
+            <div class="word-card"><span class="en">user-select</span><div class="cn">是否可选</div><span class="example">user-select: none;</span></div>
+            <div class="word-card"><span class="en">scroll-behavior</span><div class="cn">滚动行为</div><span class="example">scroll-behavior: smooth;</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 底部 -->
+        <!-- ============================================================ -->
+        <hr>
+        <div class="stats">
+            📊 共收录 <span>90+</span> 个常用 CSS 属性 · 按功能分类 · 建议收藏
+        </div>
+
+        <div class="back-link-wrap">
+            <a href="../改3.html" class="back-link">← 返回首页</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

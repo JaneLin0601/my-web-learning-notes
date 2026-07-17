@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌃 小陈的Web学习日记</title>
+    <style>
+        /* ===== 全局重置 & 背景 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* 你的夜景背景图 */
+            background-image: url("../img/4.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+
+            /* 深色半透明遮罩，让文字更清晰，更有夜晚氛围 */
+            background-color: rgba(10, 8, 7, 0.65);
+            background-blend-mode: overlay;
+
+            /* 字体和基础间距 */
+            font-family: '微软雅黑', 'PingFang SC', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            min-height: 100vh;
+
+            /* 文字颜色：暖白/浅卡其，像路灯的光 */
+            color: #E8DDCB;
+        }
+
+        /* ===== 标题：朱砂红 + 暖金 ===== */
+        h1 {
+            text-align: right;
+            font-size: 36px;
+            color: #C53D3D;
+            /* 中式朱砂红，沉稳有韵味 */
+            text-shadow: 0 0 20px rgba(197, 61, 61, 0.3);
+            letter-spacing: 4px;
+        }
+
+        h2,
+        h3 {
+            color: #D4A84B;
+            /* 暖金色，像万家灯火 */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(212, 168, 75, 0.15);
+        }
+
+        /* ===== 分割线：金色点缀 ===== */
+        hr {
+            border: none;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #B8860B, #D4A84B, #B8860B, transparent);
+            margin: 25px 0;
+            opacity: 0.6;
+        }
+
+        /* 部分特殊hr保留原色（你之前写的color属性会覆盖这个） */
+        hr[color="orchid"] {
+            background: #C53D3D;
+            opacity: 0.5;
+        }
+        hr[color="salmon"] {
+            background: #D4875E;
+            opacity: 0.5;
+        }
+        hr[color="lime"] {
+            background: #B8860B;
+            opacity: 0.5;
+        }
+        hr[color="navy"] {
+            background: #8B6B4D;
+            opacity: 0.5;
+        }
+
+        /* ===== 段落文字 ===== */
+        p {
+            color: #E8DDCB;
+            /* 暖白 */
+            line-height: 1.9;
+            margin-bottom: 16px;
+            padding: 12px 18px;
+            background-color: rgba(20, 18, 16, 0.45);
+            /* 半透明深色底，让文字清晰 */
+            border-radius: 8px;
+            backdrop-filter: blur(1px);
+            transition: all 0.3s ease;
+        }
+
+        p:hover {
+            background-color: rgba(30, 28, 26, 0.6);
+        }
+
+        /* ===== 类选择器 ===== */
+        .lei {
+            color: #D4875E;
+            /* 陶土橙，温柔点缀 */
+            font-weight: bold;
+        }
+
+        .size {
+            font-size: 50px;
+            color: #D4A84B;
+            /* 金色大标题 */
+            text-shadow: 0 0 30px rgba(212, 168, 75, 0.2);
+        }
+
+        /* ===== ID选择器：特色区块 ===== */
+        #text {
+            font-size: 28px;
+            text-align: center;
+            padding: 50px 30px;
+            color: #F0E6D3;
+            background: rgba(10, 8, 7, 0.5);
+            backdrop-filter: blur(3px);
+            border-radius: 12px;
+            border-left: 4px solid #C53D3D;
+            margin: 20px 0;
+            letter-spacing: 6px;
+            font-weight: 300;
+        }
+
+        /* ===== 链接 ===== */
+        a {
+            color: #D4875E;
+            /* 陶土橙 */
+            text-decoration: none;
+            border-bottom: 1px solid rgba(212, 135, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: #E8C9A0;
+            border-bottom-color: #D4A84B;
+            text-shadow: 0 0 15px rgba(212, 168, 75, 0.3);
+        }
+
+        /* ===== 列表 ===== */
+        ul,
+        ol {
+            background: rgba(20, 18, 16, 0.4);
+            padding: 20px 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(2px);
+            margin: 10px 0;
+        }
+
+        li {
+            color: #E0D5C0;
+            line-height: 2;
+            list-style-position: inside;
+        }
+
+        /* ===== 表格 ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(20, 18, 16, 0.5);
+            backdrop-filter: blur(2px);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        td {
+            border: 1px solid rgba(212, 168, 75, 0.25);
+            padding: 10px;
+            text-align: center;
+            color: #E0D5C0;
+        }
+
+        /* ===== 表单 ===== */
+        form {
+            background: rgba(20, 18, 16, 0.5);
+            backdrop-filter: blur(2px);
+            padding: 20px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 168, 75, 0.15);
+            margin: 10px 0;
+        }
+
+        input,
+        button {
+            background: rgba(30, 28, 26, 0.7);
+            border: 1px solid rgba(212, 168, 75, 0.3);
+            color: #E8DDCB;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #D4A84B;
+            box-shadow: 0 0 15px rgba(212, 168, 75, 0.15);
+        }
+
+        button,
+        input[type="submit"] {
+            background: #C53D3D;
+            border: none;
+            color: #F0E6D3;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 8px 25px;
+        }
+
+        button:hover,
+        input[type="submit"]:hover {
+            background: #D4875E;
+            transform: scale(1.02);
+        }
+
+        /* ===== 图片自适应 ===== */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            margin: 8px 0;
+        }
+
+        /* ===== 强调文字 ===== */
+        strong,
+        em {
+            color: #D4A84B;
+        }
+
+        del {
+            color: #8B6B4D;
+            opacity: 0.7;
+        }
+
+        span {
+            color: #E8DDCB;
+        }
+
+        /* ===== 底部小彩蛋 ===== */
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(232, 221, 203, 0.4);
+            font-size: 14px;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(212, 168, 75, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==================== 头部区域 ==================== -->
+    <div>
+        <h1 align="right">📝 Web学习日记</h1>
+        <!-- 水平分割线练习 -->
+        <hr color="orchid" size="5px">
+        <hr color="steelblue" size="5px">
+        <hr color="indigo" width="500px" size="5px">
+    </div>
+
+    <!-- ==================== 课程目录（纯文本练习） ==================== -->
+    <p>
+        <strong>📚 指南</strong><br>
+        HTML+CSS+JS+Vue【比大学课程还详细的Web前端教程...】<br>
+        07:23 02_为什么前端好学...<br>
+        12:48 001_第一个前端程序...<br>
+        <!-- 为了简洁，此处省略了长长的课程列表，你可以保留原文 -->
+        Python零基础也能做项目？看这篇就够 Python
+    </p>
+
+    <!-- ==================== Day 1 学习记录 ==================== -->
+    <h2>📅 day1:</h2>
+    <p>
+        <strong>第一段：</strong><br>
+        基本信息 br换行 HR分割线 color size width
+    </p>
+    <hr color="salmon" size="3px">
+
+    <!-- ==================== Windows快捷键总结（段落练习） ==================== -->
+    <h3>💻 Windows 快捷键 (前端开发版)</h3>
+    <p>
+        <strong>高频系统控制</strong><br>
+        - <kbd>Win + I</kbd>：打开设置<br>
+        - <kbd>Win + E</kbd>：打开“此电脑”<br>
+        - <kbd>Win + D</kbd>：显示桌面<br>
+        - <kbd>Win + L</kbd>：锁定电脑<br>
+        - <kbd>Win + V</kbd>：打开剪贴板历史 ⭐<br>
+        - <kbd>Win + S</kbd>：打开搜索<br>
+        - <kbd>Win + R</kbd>：打开“运行”窗口<br><br>
+
+        <strong>窗口管理与虚拟桌面</strong><br>
+        - <kbd>Win + 左/右</kbd>：窗口分屏<br>
+        - <kbd>Win + Tab</kbd>：任务视图<br>
+        - <kbd>Win + Ctrl + D</kbd>：新建虚拟桌面<br><br>
+
+        <strong>开发专用</strong><br>
+        - <kbd>Win + .</kbd>：打开Emoji面板 😊<br>
+        - <kbd>Win + Shift + S</kbd>：截图工具<br>
+        - <kbd>Win + G</kbd>：屏幕录制<br>
+        - <kbd>Alt + Tab</kbd>：切换应用
+    </p>
+    <hr color="lime">
+
+    <!-- ==================== 高级颜色名大全 ==================== -->
+    <h3>🎨 前端专属高级颜色词库</h3>
+    <p>
+        <strong>🔴 红色系</strong><br>
+        <code>crimson</code> 绯红 | <code>firebrick</code> 火砖色 | <code>salmon</code> 鲑鱼红<br><br>
+        <strong>💙 蓝色系</strong><br>
+        <code>navy</code> 海军蓝 | <code>steelblue</code> 钢蓝 | <code>cornflowerblue</code> 矢车菊蓝<br><br>
+        <strong>💚 绿色系</strong><br>
+        <code>teal</code> 水鸭色 | <code>seagreen</code> 海绿 | <code>olive</code> 橄榄绿<br><br>
+        <strong>💜 紫色系</strong><br>
+        <code>orchid</code> 兰花紫 | <code>indigo</code> 靛蓝 | <code>plum</code> 李子紫<br><br>
+        <strong>⚪ 中性色</strong><br>
+        <code>whitesmoke</code> 烟白 | <code>gainsboro</code> 淡灰 | <code>dimgray</code> 暗灰
+    </p>
+    <hr color="navy">
+
+    <!-- ==================== VSCode快捷键 ==================== -->
+    <h3>⚡ VSCode 必记快捷键</h3>
+    <p>
+        <strong>🚀 神键</strong><br>
+        - <kbd>Ctrl + Shift + P</kbd>：命令面板<br>
+        - <kbd>Ctrl + P</kbd>：快速打开文件<br>
+        - <kbd>Shift + Alt + F</kbd>：格式化代码 ⭐<br>
+        - <kbd>Shift + Alt + ↓</kbd>：复制当前行<br>
+        - <kbd>Ctrl + D</kbd>：多选相同词<br>
+        - <kbd>Ctrl + ~</kbd>：打开终端<br><br>
+        <strong>基础操作</strong><br>
+        - <kbd>Ctrl + C/V/X</kbd> 复制/粘贴/剪切<br>
+        - <kbd>Ctrl + Z/Y</kbd> 撤销/重做
+    </p>
+
+    <!-- ==================== 图片练习 ==================== -->
+    <h3>🖼️ 图片标签练习</h3>
+    <!-- 相对路径：图片在同级或下级文件夹 -->
+    <img src="/img/1.jpg" alt="小陈的日常碎片" width="300px" title="这是小陈的日常碎片">
+    <img src="/img/2.jpg" alt="图片2" width="300px">
+    <p class="note">⚠️ 注意：<code>/img/1.jpg</code> 这种路径，图片文件夹需放在项目根目录。</p>
+
+    <img src="/img/3.jpg" alt="图片3" width="500px">
+
+    <!-- 错误路径示例（已注释掉，避免报错） -->
+    <!-- <img src="../Download/chy/微信图片_20250430212133.jpg" alt="错误待修正"> -->
+    <!-- <img src="D:/Download/chy/微信图片_20250430212211.jpg" alt="no!!!!"> -->
+
+    <!-- 网络图片 -->
+    <img src="https://b0.bdstatic.com/ugc/Wu2v2F8DMEIvCkxWgHS6Xw56a246d1df7e8bead277fd001c72f6d4.jpg" title="网络地址路径示例"
+        width="500px">
+
+    <!-- ==================== 超链接练习 ==================== -->
+    <h3>🔗 超链接练习</h3>
+    <a href="https://image.baidu.com/search/index?tn=baiduimage&ct=201326592&lm=-1&cl=2&ie=utf8&sa=vs_ala_img&fr=ala&ala=1&alatpl=normal&pos=3&dyTabStr=MCwzLDEsMiwxMyw3LDYsNSwxMiw5&word=%E9%99%88%E6%98%8A%E5%AE%87&lid=d39116a60002ec6e&topic=%E9%99%88%E6%98%8A%E5%AE%87"
+        target="_blank">🔍 陈昊宇-百度图片</a>
+
+    <br><br>
+    <!-- 图片链接 -->
+    <a href="快捷键文件夹/点开有惊喜.html">
+        <img src="/img/4.jpg" alt="点开有惊喜" width="500px">
+    </a>
+    <p>👆 点击图片跳转（需确保 <code>快捷键文件夹/点开有惊喜.html</code> 存在）</p>
+
+    <!-- ==================== 文本标签练习 ==================== -->
+    <h3>✍️ 文本标签</h3>
+    <p>
+        <i>斜体 (i)</i><br>
+        <em><strong>强调的粗斜体 (em+strong)</strong></em><br>
+        <del>删除线 (del)</del><br>
+        <span>普通行内文本 (span)</span><br>
+        <strong>加粗文本 (strong)</strong>
+    </p>
+
+    <!-- ==================== 列表练习 ==================== -->
+    <h3>📋 列表练习</h3>
+    <p><strong>有序列表 (ol)</strong></p>
+    <ol type="A">
+        <li>生日
+            <ol type="1">
+                <li><del>mon</del></li>
+                <li><del>fri</del></li>
+                <li><del>6</del></li>
+                <li>07</li>
+            </ol>
+        </li>
+        <li>昵称
+            <ol type="i">
+                <li>jan</li>
+                <li>Amychen</li>
+                <li>眠</li>
+                <li>小陈</li>
+                <li>昊宇</li>
+                <li>小宇</li>
+            </ol>
+        </li>
+    </ol>
+
+    <p><strong>无序列表 (ul)</strong></p>
+    <ul type="circle">
+        <li>🏆 第3届华人星光大道总冠军</li>
+        <li>🎤 第1届中国正在听第八名</li>
+        <li>🏅 第18届厦门理工学院十大校园歌手大赛总冠军</li>
+        <li>🌟 2024微博之夜微博年度新势力演员</li>
+        <li>👑 《乘风2024》年度总冠军</li>
+        <li>🎬 2025年BAZAARGALA瞩目演员</li>
+        <li>⭐ 2025微博之夜微博年度突破演员</li>
+    </ul>
+
+    <!-- ==================== 表格练习 ==================== -->
+    <h3>📊 表格练习 (5x5)</h3>
+    <table border="1" width="100%">
+        <tr>
+            <td colspan="2">合并两列</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>2,1</td>
+            <td>2,2</td>
+            <td>2,3</td>
+            <td>2,4</td>
+            <td>2,5</td>
+        </tr>
+        <tr>
+            <td>3,1</td>
+            <td>3,2</td>
+            <td>3,3</td>
+            <td>3,4</td>
+            <td>3,5</td>
+        </tr>
+        <tr>
+            <td>4,1</td>
+            <td>4,2</td>
+            <td>4,3</td>
+            <td>4,4</td>
+            <td>4,5</td>
+        </tr>
+        <tr>
+            <td>5,1</td>
+            <td>5,2</td>
+            <td>5,3</td>
+            <td>5,4</td>
+            <td>5,5</td>
+        </tr>
+    </table>
+
+    <!-- ==================== 表单练习 ==================== -->
+    <h3>📝 表单练习</h3>
+    <form action="url" method="get">
+        <label for="username">用户名：</label>
+        <input type="text" name="username" id="username" placeholder="请输入用户名">
+        <input type="submit" value="登录">
+        <button type="button">普通按钮</button>
+        <br><br>
+        <label for="pwd">密码：</label>
+        <input type="password" name="pwd" id="pwd" placeholder="请输入密码">
+        <button type="submit">提交</button>
+    </form>
+
+    <hr>
+    <p style="text-align: center; color: #6c757d; margin-top: 30px;">
+        🎉 第一个网页完成！继续加油，未来全栈大神！
+    </p>
+
+</body>
+
+
+</html>

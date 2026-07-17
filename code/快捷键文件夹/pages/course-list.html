@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>📚 课程目录</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+                /* ===== 补充样式，让目录更清晰 ===== */
+                .section-block {
+                        background: rgba(20, 18, 16, 0.45);
+                        border-radius: 10px;
+                        padding: 16px 20px;
+                        margin-bottom: 20px;
+                        border-left: 4px solid #d4a84b;
+                }
+
+                .section-block h3 {
+                        color: #d4a84b;
+                        font-size: 17px;
+                        margin-bottom: 10px;
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                }
+
+                .section-block h3 .badge {
+                        background: #1f6feb;
+                        color: #fff;
+                        font-size: 12px;
+                        padding: 0 12px;
+                        border-radius: 12px;
+                        font-weight: normal;
+                }
+
+                .section-block .course-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 2px 25px;
+                }
+
+                @media (max-width: 600px) {
+                        .section-block .course-grid {
+                                grid-template-columns: 1fr;
+                        }
+                }
+
+                .section-block .course-item {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 3px 0;
+                        border-bottom: 1px solid rgba(48, 54, 61, 0.2);
+                        font-size: 14px;
+                        color: #c9d1d9;
+                }
+
+                .section-block .course-item .name {
+                        color: #e6edf3;
+                }
+
+                .section-block .course-item .duration {
+                        color: #8b949e;
+                        font-size: 13px;
+                        white-space: nowrap;
+                        margin-left: 12px;
+                }
+
+                .section-block .course-item .index {
+                        color: #8b949e;
+                        font-size: 12px;
+                        min-width: 36px;
+                }
+
+                .stats {
+                        display: flex;
+                        justify-content: center;
+                        gap: 30px;
+                        flex-wrap: wrap;
+                        background: rgba(20, 18, 16, 0.45);
+                        padding: 12px 20px;
+                        border-radius: 10px;
+                        margin-bottom: 25px;
+                }
+
+                .stats span {
+                        color: #8b949e;
+                        font-size: 14px;
+                }
+
+                .stats strong {
+                        color: #d4a84b;
+                        font-size: 17px;
+                }
+
+                .back-link {
+                        color: #d4875e;
+                        text-decoration: none;
+                        border-bottom: 1px solid transparent;
+                        transition: 0.3s;
+                        border-radius: 30px;
+                }
+
+                .back-link:hover {
+                        color: #e8c9a0;
+                        border-bottom-color: #d4a84b;
+                }
+
+                .tip {
+                        background: rgba(20, 18, 16, 0.45);
+                        padding: 12px 18px;
+                        border-radius: 8px;
+                        color: #8b949e;
+                        font-size: 13px;
+                        margin-top: 10px;
+                        text-align: center;
+                }
+
+                .tip strong {
+                        color: #d4a84b;
+                }
+        </style>
+</head>
+
+<body>
+
+        <h1>📚 Web前端课程目录</h1>
+        <hr>
+
+        <!-- ===== 统计 ===== -->
+        <div class="stats">
+                <span>📖 总课时 <strong>180</strong> 节</span>
+                <span>📂 模块 <strong>5</strong> 大章节</span>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 模块一：HTML + CSS 基础 (001-039) -->
+        <!-- ============================================================ -->
+        <div class="section-block" style="border-left-color: #1f6feb;">
+                <h3>
+                        🟦 模块一：HTML + CSS 基础
+                        <span class="badge">39 节</span>
+                </h3>
+                <div class="course-grid">
+                        <div class="course-item"><span class="index">001</span><span class="name">第一个前端程序</span></div>
+                        <div class="course-item"><span class="index">002</span><span class="name">前端工具的选择与安装</span>
+                        </div>
+                        <div class="course-item"><span class="index">003</span><span class="name">VSCode开发者工具快捷键</span>
+                        </div>
+                        <div class="course-item"><span class="index">004</span><span class="name">HTML5简介与基础骨架</span>
+                        </div>
+                        <div class="course-item"><span class="index">005</span><span class="name">标题标签</span></div>
+                        <div class="course-item"><span class="index">006</span><span class="name">标签之段落、换行、水平线</span>
+                        </div>
+                        <div class="course-item"><span class="index">007</span><span class="name">标签之图片</span></div>
+                        <div class="course-item"><span class="index">008</span><span class="name">图片路径详解</span></div>
+                        <div class="course-item"><span class="index">009</span><span class="name">标签之超文本链接</span></div>
+                        <div class="course-item"><span class="index">010</span><span class="name">标签之文本</span></div>
+                        <div class="course-item"><span class="index">011</span><span class="name">列表标签之有序列表</span></div>
+                        <div class="course-item"><span class="index">012</span><span class="name">列表标签之无序列表</span></div>
+                        <div class="course-item"><span class="index">013</span><span class="name">标签之表格</span></div>
+                        <div class="course-item"><span class="index">014</span><span class="name">表格单元格合并</span></div>
+                        <div class="course-item"><span class="index">015</span><span class="name">Form表单</span></div>
+                        <div class="course-item"><span class="index">016</span><span class="name">表单元素</span></div>
+                        <div class="course-item"><span class="index">017</span><span class="name">块元素与行内元素</span></div>
+                        <div class="course-item"><span class="index">018</span><span class="name">HTML5新增标签</span></div>
+                        <div class="course-item"><span class="index">019</span><span class="name">CSS简介</span></div>
+                        <div class="course-item"><span class="index">020</span><span class="name">CSS的引入方式</span></div>
+                        <div class="course-item"><span class="index">021</span><span class="name">选择器一</span></div>
+                        <div class="course-item"><span class="index">022</span><span class="name">选择器二</span></div>
+                        <div class="course-item"><span class="index">023</span><span class="name">字体属性</span></div>
+                        <div class="course-item"><span class="index">024</span><span class="name">背景属性</span></div>
+                        <div class="course-item"><span class="index">025</span><span class="name">文本属性</span></div>
+                        <div class="course-item"><span class="index">026</span><span class="name">表格属性</span></div>
+                        <div class="course-item"><span class="index">027</span><span class="name">关系选择器</span></div>
+                        <div class="course-item"><span class="index">028</span><span class="name">CSS盒子模型</span></div>
+                        <div class="course-item"><span class="index">029</span><span class="name">弹性盒子模型</span></div>
+                        <div class="course-item"><span class="index">030</span><span class="name">——</span></div>
+                        <div class="course-item"><span class="index">031</span><span class="name">浮动</span></div>
+                        <div class="course-item"><span class="index">032</span><span class="name">清除浮动</span></div>
+                        <div class="course-item"><span class="index">033</span><span class="name">定位</span></div>
+                        <div class="course-item"><span class="index">034</span><span class="name">CSS3新特性</span></div>
+                        <div class="course-item"><span class="index">035</span><span class="name">动画</span></div>
+                        <div class="course-item"><span class="index">036</span><span class="name">媒体查询</span></div>
+                        <div class="course-item"><span class="index">037</span><span class="name">雪碧图</span></div>
+                        <div class="course-item"><span class="index">038</span><span class="name">字体图标</span></div>
+                        <div class="course-item"><span class="index">039</span><span class="name">JavaScript简介</span>
+                        </div>
+                </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 模块二：JavaScript 基础 (040-078) -->
+        <!-- ============================================================ -->
+        <div class="section-block" style="border-left-color: #da3633;">
+                <h3>
+                        🟥 模块二：JavaScript 基础
+                        <span class="badge">39 节</span>
+                </h3>
+                <div class="course-grid">
+                        <div class="course-item"><span class="index">040</span><span class="name">语句、标识符</span><span
+                                        class="duration">12:28</span></div>
+                        <div class="course-item"><span class="index">041</span><span class="name">变量</span><span
+                                        class="duration">13:28</span></div>
+                        <div class="course-item"><span class="index">042</span><span class="name">引入到文件</span><span
+                                        class="duration">08:10</span></div>
+                        <div class="course-item"><span class="index">043</span><span class="name">注释与常见输出方式</span><span
+                                        class="duration">10:01</span></div>
+                        <div class="course-item"><span class="index">044</span><span class="name">数据类型</span><span
+                                        class="duration">11:33</span></div>
+                        <div class="course-item"><span class="index">045</span><span class="name">typeof 运算符</span><span
+                                        class="duration">09:10</span></div>
+                        <div class="course-item"><span class="index">046</span><span class="name">算术运算符</span><span
+                                        class="duration">11:21</span></div>
+                        <div class="course-item"><span class="index">047</span><span class="name">赋值运算符</span><span
+                                        class="duration">06:49</span></div>
+                        <div class="course-item"><span class="index">048</span><span class="name">比较运算符</span><span
+                                        class="duration">07:43</span></div>
+                        <div class="course-item"><span class="index">049</span><span class="name">布尔运算符</span><span
+                                        class="duration">11:16</span></div>
+                        <div class="course-item"><span class="index">050</span><span class="name">if 语句</span><span
+                                        class="duration">10:06</span></div>
+                        <div class="course-item"><span class="index">051</span><span class="name">if...else</span><span
+                                        class="duration">14:01</span></div>
+                        <div class="course-item"><span class="index">052</span><span class="name">Switch</span><span
+                                        class="duration">09:27</span></div>
+                        <div class="course-item"><span class="index">053</span><span class="name">三元运算符</span><span
+                                        class="duration">07:10</span></div>
+                        <div class="course-item"><span class="index">054</span><span class="name">for 循环</span><span
+                                        class="duration">14:15</span></div>
+                        <div class="course-item"><span class="index">055</span><span class="name">for 循环实操</span><span
+                                        class="duration">16:48</span></div>
+                        <div class="course-item"><span class="index">056</span><span class="name">while 循环</span><span
+                                        class="duration">06:54</span></div>
+                        <div class="course-item"><span class="index">057</span><span class="name">break /
+                                        continue</span><span class="duration">07:39</span></div>
+                        <div class="course-item"><span class="index">058</span><span class="name">字符串</span><span
+                                        class="duration">09:10</span></div>
+                        <div class="course-item"><span class="index">059</span><span class="name">charAt</span><span
+                                        class="duration">06:44</span></div>
+                        <div class="course-item"><span class="index">060</span><span class="name">concat</span><span
+                                        class="duration">10:14</span></div>
+                        <div class="course-item"><span class="index">061</span><span class="name">substring</span><span
+                                        class="duration">09:03</span></div>
+                        <div class="course-item"><span class="index">062</span><span class="name">substr</span><span
+                                        class="duration">06:23</span></div>
+                        <div class="course-item"><span class="index">063</span><span class="name">indexOf</span><span
+                                        class="duration">07:49</span></div>
+                        <div class="course-item"><span class="index">064</span><span class="name">trim</span><span
+                                        class="duration">06:53</span></div>
+                        <div class="course-item"><span class="index">065</span><span class="name">split</span><span
+                                        class="duration">07:42</span></div>
+                        <div class="course-item"><span class="index">066</span><span class="name">数组</span><span
+                                        class="duration">11:43</span></div>
+                        <div class="course-item"><span class="index">067</span><span class="name">数组遍历</span><span
+                                        class="duration">07:28</span></div>
+                        <div class="course-item"><span class="index">068</span><span
+                                        class="name">Array.isArray</span><span class="duration">05:44</span></div>
+                        <div class="course-item"><span class="index">069</span><span class="name">push / pop</span><span
+                                        class="duration">06:20</span></div>
+                        <div class="course-item"><span class="index">070</span><span class="name">shift /
+                                        unshift</span><span class="duration">06:42</span></div>
+                        <div class="course-item"><span class="index">071</span><span class="name">join</span><span
+                                        class="duration">08:24</span></div>
+                        <div class="course-item"><span class="index">072</span><span class="name">concat（数组）</span><span
+                                        class="duration">06:01</span></div>
+                        <div class="course-item"><span class="index">073</span><span class="name">reverse</span><span
+                                        class="duration">04:45</span></div>
+                        <div class="course-item"><span class="index">074</span><span
+                                        class="name">indexOf（数组）</span><span class="duration">06:00</span></div>
+                        <div class="course-item"><span class="index">075</span><span class="name">函数</span><span
+                                        class="duration">13:43</span></div>
+                        <div class="course-item"><span class="index">076</span><span class="name">对象概述</span><span
+                                        class="duration">09:01</span></div>
+                        <div class="course-item"><span class="index">077</span><span class="name">Math 对象</span><span
+                                        class="duration">10:57</span></div>
+                        <div class="course-item"><span class="index">078</span><span class="name">Date 对象</span><span
+                                        class="duration">15:05</span></div>
+                </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 模块三：DOM + BOM + 进阶 (079-094) -->
+        <!-- ============================================================ -->
+        <div class="section-block" style="border-left-color: #d29922;">
+                <h3>
+                        🟨 模块三：DOM + BOM + 进阶
+                        <span class="badge">16 节</span>
+                </h3>
+                <div class="course-grid">
+                        <div class="course-item"><span class="index">079</span><span class="name">DOM 概述</span><span
+                                        class="duration">09:12</span></div>
+                        <div class="course-item"><span class="index">080</span><span class="name">document
+                                        获取元素</span><span class="duration">11:07</span></div>
+                        <div class="course-item"><span class="index">081</span><span class="name">document
+                                        创建元素</span><span class="duration">06:44</span></div>
+                        <div class="course-item"><span class="index">082</span><span class="name">Element 属性</span><span
+                                        class="duration">10:46</span></div>
+                        <div class="course-item"><span class="index">083</span><span class="name">获取元素位置</span><span
+                                        class="duration">15:16</span></div>
+                        <div class="course-item"><span class="index">084</span><span class="name">CSS 操作</span><span
+                                        class="duration">05:16</span></div>
+                        <div class="course-item"><span class="index">085</span><span class="name">事件处理程序</span><span
+                                        class="duration">09:38</span></div>
+                        <div class="course-item"><span class="index">086</span><span class="name">鼠标事件</span><span
+                                        class="duration">14:34</span></div>
+                        <div class="course-item"><span class="index">087</span><span class="name">Event 事件对象</span><span
+                                        class="duration">11:01</span></div>
+                        <div class="course-item"><span class="index">088</span><span class="name">键盘事件</span><span
+                                        class="duration">07:56</span></div>
+                        <div class="course-item"><span class="index">089</span><span class="name">表单事件</span><span
+                                        class="duration">10:07</span></div>
+                        <div class="course-item"><span class="index">090</span><span class="name">事件代理（委托）</span><span
+                                        class="duration">09:02</span></div>
+                        <div class="course-item"><span class="index">091</span><span class="name">setTimeout</span><span
+                                        class="duration">06:39</span></div>
+                        <div class="course-item"><span class="index">092</span><span
+                                        class="name">setInterval</span><span class="duration">06:51</span></div>
+                        <div class="course-item"><span class="index">093</span><span class="name">防抖
+                                        (debounce)</span><span class="duration">10:33</span></div>
+                        <div class="course-item"><span class="index">094</span><span class="name">节流
+                                        (throttle)</span><span class="duration">07:55</span></div>
+                </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 模块四：ES6+ 核心 (095-116) -->
+        <!-- ============================================================ -->
+        <div class="section-block" style="border-left-color: #238636;">
+                <h3>
+                        🟩 模块四：ES6+ 核心
+                        <span class="badge">22 节</span>
+                </h3>
+                <div class="course-grid">
+                        <div class="course-item"><span class="index">095</span><span class="name">命令行工具</span><span
+                                        class="duration">09:53</span></div>
+                        <div class="course-item"><span class="index">096</span><span class="name">ECMAScript 6
+                                        简介</span><span class="duration">04:57</span></div>
+                        <div class="course-item"><span class="index">097</span><span class="name">Node.js
+                                        环境安装</span><span class="duration">08:37</span></div>
+                        <div class="course-item"><span class="index">098</span><span class="name">Babel 转码器</span><span
+                                        class="duration">11:23</span></div>
+                        <div class="course-item"><span class="index">099</span><span class="name">let 命令</span><span
+                                        class="duration">14:22</span></div>
+                        <div class="course-item"><span class="index">100</span><span class="name">const 命令</span><span
+                                        class="duration">08:41</span></div>
+                        <div class="course-item"><span class="index">101</span><span class="name">对象解构赋值</span><span
+                                        class="duration">07:30</span></div>
+                        <div class="course-item"><span class="index">102</span><span class="name">字符串扩展</span><span
+                                        class="duration">10:25</span></div>
+                        <div class="course-item"><span class="index">103</span><span class="name">字符串新增方法</span><span
+                                        class="duration">12:07</span></div>
+                        <div class="course-item"><span class="index">104</span><span
+                                        class="name">数组扩展（扩展运算符）</span><span class="duration">05:59</span></div>
+                        <div class="course-item"><span class="index">105</span><span class="name">数组新增方法</span><span
+                                        class="duration">10:02</span></div>
+                        <div class="course-item"><span class="index">106</span><span class="name">对象的扩展</span><span
+                                        class="duration">10:10</span></div>
+                        <div class="course-item"><span class="index">107</span><span class="name">箭头函数</span><span
+                                        class="duration">12:19</span></div>
+                        <div class="course-item"><span class="index">108</span><span class="name">Set 数据结构</span><span
+                                        class="duration">08:49</span></div>
+                        <div class="course-item"><span class="index">109</span><span class="name">Set 数据结构方法</span><span
+                                        class="duration">03:28</span></div>
+                        <div class="course-item"><span class="index">110</span><span class="name">Promise 对象</span><span
+                                        class="duration">16:41</span></div>
+                        <div class="course-item"><span class="index">111</span><span class="name">Promise + Ajax
+                                        实操</span><span class="duration">07:46</span></div>
+                        <div class="course-item"><span class="index">112</span><span class="name">async 函数</span><span
+                                        class="duration">17:18</span></div>
+                        <div class="course-item"><span class="index">113</span><span class="name">Class 基本语法</span><span
+                                        class="duration">07:27</span></div>
+                        <div class="course-item"><span class="index">114</span><span class="name">Class
+                                        属性与方法</span><span class="duration">09:19</span></div>
+                        <div class="course-item"><span class="index">115</span><span class="name">Class 继承</span><span
+                                        class="duration">06:20</span></div>
+                        <div class="course-item"><span class="index">116</span><span class="name">Module 语法</span><span
+                                        class="duration">19:39</span></div>
+                </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 模块五：Vue 2 完整体系 (117-140) -->
+        <!-- ============================================================ -->
+        <div class="section-block" style="border-left-color: #8b5cf6;">
+                <h3>
+                        🟪 模块五：Vue 2 完整体系
+                        <span class="badge">24 节</span>
+                </h3>
+                <div class="course-grid">
+                        <div class="course-item"><span class="index">117</span><span class="name">Vue
+                                        是什么？为什么要学</span><span class="duration">08:29</span></div>
+                        <div class="course-item"><span class="index">118</span><span class="name">Vue 开发前准备</span><span
+                                        class="duration">14:26</span></div>
+                        <div class="course-item"><span class="index">119</span><span class="name">模板语法</span><span
+                                        class="duration">17:38</span></div>
+                        <div class="course-item"><span class="index">120</span><span class="name">条件渲染</span><span
+                                        class="duration">11:16</span></div>
+                        <div class="course-item"><span class="index">121</span><span class="name">列表渲染</span><span
+                                        class="duration">09:34</span></div>
+                        <div class="course-item"><span class="index">122</span><span class="name">事件处理</span><span
+                                        class="duration">11:24</span></div>
+                        <div class="course-item"><span class="index">123</span><span class="name">表单输入绑定</span><span
+                                        class="duration">08:26</span></div>
+                        <div class="course-item"><span class="index">124</span><span class="name">组件基础</span><span
+                                        class="duration">11:26</span></div>
+                        <div class="course-item"><span class="index">125</span><span class="name">Props 组件交互</span><span
+                                        class="duration">08:44</span></div>
+                        <div class="course-item"><span class="index">126</span><span class="name">自定义事件组件交互</span><span
+                                        class="duration">07:02</span></div>
+                        <div class="course-item"><span class="index">127</span><span class="name">组件生命周期</span><span
+                                        class="duration">13:03</span></div>
+                        <div class="course-item"><span class="index">128</span><span class="name">Vue 引入第三方</span><span
+                                        class="duration">13:47</span></div>
+                        <div class="course-item"><span class="index">129</span><span class="name">Axios 网络请求</span><span
+                                        class="duration">10:21</span></div>
+                        <div class="course-item"><span class="index">130</span><span class="name">Axios
+                                        网络请求封装</span><span class="duration">14:30</span></div>
+                        <div class="course-item"><span class="index">131</span><span class="name">网络请求跨域解决方案</span><span
+                                        class="duration">05:16</span></div>
+                        <div class="course-item"><span class="index">132</span><span class="name">Vue 引入路由配置</span><span
+                                        class="duration">16:45</span></div>
+                        <div class="course-item"><span class="index">133</span><span class="name">路由传递参数</span><span
+                                        class="duration">12:57</span></div>
+                        <div class="course-item"><span class="index">134</span><span class="name">嵌套路由配置</span><span
+                                        class="duration">08:10</span></div>
+                        <div class="course-item"><span class="index">135</span><span class="name">Vuex 状态管理</span><span
+                                        class="duration">13:45</span></div>
+                        <div class="course-item"><span class="index">136</span><span class="name">Vuex 核心</span><span
+                                        class="duration">18:32</span></div>
+                        <div class="course-item"><span class="index">137</span><span class="name">Vue3 新特性
+                                        (1)</span><span class="duration">16:31</span></div>
+                        <div class="course-item"><span class="index">138</span><span class="name">Vue3 新特性
+                                        (2)</span><span class="duration">07:39</span></div>
+                        <div class="course-item"><span class="index">139</span><span class="name">Vue3 + Element-plus
+                                        (1)</span><span class="duration">09:31</span></div>
+                        <div class="course-item"><span class="index">140</span><span class="name">Vue3 + Element-plus
+                                        (2)</span><span class="duration">06:03</span></div>
+                </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 模块六：Vue 3 专项 (01-40) -->
+        <!-- ============================================================ -->
+        <div class="section-block" style="border-left-color: #db9868;">
+                <h3>
+                        🟧 模块六：Vue 3 专项
+                        <span class="badge">40 节</span>
+                </h3>
+                <div class="course-grid">
+                        <div class="course-item"><span class="index">01</span><span class="name">为什么选择 Vue
+                                        框架</span><span class="duration">05:16</span></div>
+                        <div class="course-item"><span class="index">02</span><span class="name">Vue 简介</span><span
+                                        class="duration">09:05</span></div>
+                        <div class="course-item"><span class="index">03</span><span class="name">Vue API 风格</span><span
+                                        class="duration">06:57</span></div>
+                        <div class="course-item"><span class="index">04</span><span class="name">Vue 开发前准备</span><span
+                                        class="duration">09:20</span></div>
+                        <div class="course-item"><span class="index">05</span><span class="name">Vue 项目目录结构</span><span
+                                        class="duration">06:01</span></div>
+                        <div class="course-item"><span class="index">06</span><span class="name">模板语法</span><span
+                                        class="duration">14:41</span></div>
+                        <div class="course-item"><span class="index">07</span><span class="name">属性绑定</span><span
+                                        class="duration">13:24</span></div>
+                        <div class="course-item"><span class="index">08</span><span class="name">条件渲染</span><span
+                                        class="duration">11:15</span></div>
+                        <div class="course-item"><span class="index">09</span><span class="name">列表渲染</span><span
+                                        class="duration">13:46</span></div>
+                        <div class="course-item"><span class="index">10</span><span class="name">通过 key 管理状态</span><span
+                                        class="duration">09:25</span></div>
+                        <div class="course-item"><span class="index">11</span><span class="name">事件处理</span><span
+                                        class="duration">10:09</span></div>
+                        <div class="course-item"><span class="index">12</span><span class="name">事件传参</span><span
+                                        class="duration">08:55</span></div>
+                        <div class="course-item"><span class="index">13</span><span class="name">事件修饰符</span><span
+                                        class="duration">08:42</span></div>
+                        <div class="course-item"><span class="index">14</span><span class="name">数组变化侦测</span><span
+                                        class="duration">09:15</span></div>
+                        <div class="course-item"><span class="index">15</span><span class="name">计算属性</span><span
+                                        class="duration">08:00</span></div>
+                        <div class="course-item"><span class="index">16</span><span class="name">Class 绑定</span><span
+                                        class="duration">13:19</span></div>
+                        <div class="course-item"><span class="index">17</span><span class="name">Style 绑定</span><span
+                                        class="duration">05:59</span></div>
+                        <div class="course-item"><span class="index">18</span><span class="name">侦听器</span><span
+                                        class="duration">07:12</span></div>
+                        <div class="course-item"><span class="index">19</span><span class="name">表单输入绑定</span><span
+                                        class="duration">09:59</span></div>
+                        <div class="course-item"><span class="index">20</span><span class="name">模板引用</span><span
+                                        class="duration">08:30</span></div>
+                        <div class="course-item"><span class="index">21</span><span class="name">组件组成</span><span
+                                        class="duration">10:09</span></div>
+                        <div class="course-item"><span class="index">22</span><span class="name">组件嵌套关系</span><span
+                                        class="duration">10:22</span></div>
+                        <div class="course-item"><span class="index">23</span><span class="name">组件注册方式</span><span
+                                        class="duration">05:54</span></div>
+                        <div class="course-item"><span class="index">24</span><span class="name">Props 传递数据</span><span
+                                        class="duration">08:06</span></div>
+                        <div class="course-item"><span class="index">25</span><span class="name">传递多种数据类型</span><span
+                                        class="duration">04:34</span></div>
+                        <div class="course-item"><span class="index">26</span><span class="name">Props 校验</span><span
+                                        class="duration">13:03</span></div>
+                        <div class="course-item"><span class="index">27</span><span class="name">组件事件</span><span
+                                        class="duration">10:42</span></div>
+                        <div class="course-item"><span class="index">28</span><span class="name">组件事件 +
+                                        v-model</span><span class="duration">06:19</span></div>
+                        <div class="course-item"><span class="index">29</span><span class="name">组件数据传递</span><span
+                                        class="duration">07:02</span></div>
+                        <div class="course-item"><span class="index">30</span><span class="name">透传
+                                        Attributes</span><span class="duration">05:18</span></div>
+                        <div class="course-item"><span class="index">31</span><span class="name">插槽 Slots</span><span
+                                        class="duration">07:59</span></div>
+
+
+
+
+
+                        <div class="back-link"><span class="back-link:hover"></span>
+                                <a href="../改3.html" class="back-link">← 返回</a>
+                        </div>
+
+</body>
+
+</html>

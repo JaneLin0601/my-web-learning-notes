@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📍 定位 position 核心要点</title>
+    <style>
+        /* ===== 全局重置 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '微软雅黑', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            /* 🌟 使用你的 4.jpg 作为背景 */
+            background-image: url('img/4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: rgba(10, 8, 7, 0.55);
+            background-blend-mode: overlay;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ===== 主容器：毛玻璃卡片 ===== */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 35px 40px;
+
+            /* 🌟 毛玻璃效果 */
+            background: rgba(22, 27, 34, 0.50);
+            backdrop-filter: blur(14px) saturate(1.2);
+            -webkit-backdrop-filter: blur(14px) saturate(1.2);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+
+            color: #e6edf3;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            color: #f0e6d3;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212, 168, 75, 0.25), transparent);
+            margin: 24px 0;
+        }
+
+        /* ===== 卡片 ===== */
+        .card {
+            background: rgba(13, 17, 23, 0.40);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: rgba(13, 17, 23, 0.60);
+            border-color: rgba(212, 168, 75, 0.10);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #d4a84b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #f0883e;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.60);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .card strong {
+            color: #f0e6d3;
+        }
+
+        /* ===== 代码块 ===== */
+        .code-block {
+            background: rgba(0, 0, 0, 0.50);
+            backdrop-filter: blur(4px);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #e6edf3;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+
+        .code-block .comment {
+            color: rgba(255, 255, 255, 0.30);
+        }
+        .code-block .selector {
+            color: #ff7b72;
+        }
+        .code-block .property {
+            color: #79c0ff;
+        }
+        .code-block .value {
+            color: #a5d6ff;
+        }
+        .code-block .keyword {
+            color: #ff7b72;
+        }
+
+        /* ===== 定位演示区 ===== */
+        .demo-area {
+            background: rgba(0, 0, 0, 0.30);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            position: relative;
+        }
+
+        .demo-area .demo-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.25);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== 定位演示盒子 ===== */
+        .position-demo {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: rgba(136, 136, 136, 0.20);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            margin: 0 auto;
+            /* 方便观察子元素偏移 */
+        }
+
+        .position-demo .box {
+            width: 100px;
+            height: 80px;
+            background: rgba(138, 43, 226, 0.60);
+            backdrop-filter: blur(4px);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 13px;
+            font-weight: bold;
+            position: absolute;
+            left: 50px;
+            top: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* ===== 5 种 position 对比 ===== */
+        .pos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 700px) {
+            .pos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pos-card {
+            background: rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .pos-card:hover {
+            border-color: rgba(212, 168, 75, 0.12);
+        }
+
+        .pos-card h4 {
+            color: #d4a84b;
+            font-size: 15px;
+            margin-bottom: 4px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .pos-card .pos-desc {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .pos-card .pos-use {
+            color: rgba(255, 255, 255, 0.30);
+            font-size: 12px;
+        }
+
+        /* ===== 标签 ===== */
+        .tag {
+            display: inline-block;
+            padding: 0 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tag-relative {
+            background: rgba(100, 200, 255, 0.12);
+            color: #64c8ff;
+        }
+        .tag-absolute {
+            background: rgba(255, 107, 107, 0.12);
+            color: #ff6b6b;
+        }
+        .tag-fixed {
+            background: rgba(35, 134, 54, 0.12);
+            color: #238636;
+        }
+        .tag-sticky {
+            background: rgba(255, 215, 0, 0.10);
+            color: #ffd700;
+        }
+        .tag-static {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.30);
+        }
+
+        /* ===== 口诀 ===== */
+        .juekou {
+            text-align: center;
+            font-size: 18px;
+            color: #d4a84b;
+            letter-spacing: 3px;
+            padding: 14px;
+            background: rgba(212, 168, 75, 0.04);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 168, 75, 0.06);
+        }
+
+        .juekou span {
+            color: #f0e6d3;
+        }
+
+        /* ===== 返回链接 ===== */
+        .back-link-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+            border-radius: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 8px 22px;
+            background: rgba(212, 168, 75, 0.10);
+            border: 1px solid rgba(212, 168, 75, 0.15);
+            border-radius: 8px;
+            color: #d4a84b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .back-link:hover {
+            background: #d4a84b;
+            color: #0d1117;
+            box-shadow: 0 0 30px rgba(212, 168, 75, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* ===== 图示说明 ===== */
+        .note-box {
+            background: rgba(255, 215, 0, 0.04);
+            border-left: 3px solid rgba(212, 168, 75, 0.20);
+            padding: 10px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 10px;
+        }
+
+        .note-box p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.40);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>📍 定位 position 核心要点</h1>
+        <p class="subtitle">5 种定位 · 父级参照 · 层级控制</p>
+        <hr>
+
+        <!-- ============================================================ -->
+        <!-- 1. 核心概念 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>1️⃣ 核心概念</h2>
+            <p>
+                <strong>定位 = 让元素脱离文档流，相对于某个参照物进行偏移。</strong>
+            </p>
+            <p>
+                🔑 <span style="color:#64c8ff;">关键点</span>：
+                <strong style="color:#f0e6d3;">子级绝对定位</strong> 需要父级有 <code>position: relative</code>，
+                否则子级会相对于 <span style="color:#ff6b6b;">整个视口（或最近的定位祖先）</span> 定位。
+            </p>
+            <div class="note-box">
+                <p>💡 你问的 <strong>“子级绝对定位了，父级要相同绝对定位的意思吗？”</strong> —— 答案是 <span style="color:#d4a84b;">不是</span>。</p>
+                <p style="margin-top:4px;">父级只需要 <code>position: relative</code>（或任意非 static 定位），子级 <code>position: absolute</code> 就会以父级为参照物。</p>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 2. 5 种定位方式 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>2️⃣ 5 种定位方式</h2>
+
+            <div class="pos-grid">
+
+                <div class="pos-card">
+                    <h4>static <span class="tag tag-static">默认</span></h4>
+                    <div class="pos-desc">正常文档流，<strong>不能用</strong> left/top 偏移</div>
+                    <div class="pos-use">📌 所有元素默认值，无需设置</div>
+                </div>
+
+                <div class="pos-card">
+                    <h4>relative <span class="tag tag-relative">参照物</span></h4>
+                    <div class="pos-desc">相对于 <strong>自身原本位置</strong> 偏移，<strong>不脱离文档流</strong></div>
+                    <div class="pos-use">📍 常用于 <strong>父级参照物</strong>（配合 absolute）</div>
+                </div>
+
+                <div class="pos-card">
+                    <h4>absolute <span class="tag tag-absolute">子级</span></h4>
+                    <div class="pos-desc">相对于 <strong>最近的定位祖先</strong> 偏移，<strong>脱离文档流</strong></div>
+                    <div class="pos-use">📌 父级必须有 <code>position: relative</code> 才能“锚定”</div>
+                </div>
+
+                <div class="pos-card">
+                    <h4>fixed <span class="tag tag-fixed">固定</span></h4>
+                    <div class="pos-desc">相对于 <strong>浏览器视口</strong> 固定，滚动时 <strong>不动</strong></div>
+                    <div class="pos-use">📌 常用于 <strong>导航栏、返回顶部</strong> 按钮</div>
+                </div>
+
+                <div class="pos-card" style="grid-column: 1 / -1;">
+                    <h4>sticky <span class="tag tag-sticky">粘性</span></h4>
+                    <div class="pos-desc">相对定位 + 固定定位的混合，滚动到阈值时 <strong>固定</strong></div>
+                    <div class="pos-use">📌 常用于 <strong>表头、侧边栏</strong>，需要设 <code>top: 0</code></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. 实战演示：子级绝对定位 → 父级参照 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>3️⃣ 实战演示：绝对定位 → 父级参照</h2>
+            <p>
+                下面这个例子：父级 <code>position: relative</code>，子级 <code>position: absolute; left: 50px; top: 50px;</code>
+            </p>
+
+            <div class="demo-area">
+                <div class="demo-label">⬇️ 父容器（relative）</div>
+                <div class="position-demo" style="position: relative;">
+                    <div class="box" style="position: absolute; left: 50px; top: 50px;">
+                        absolute
+                    </div>
+                    <p style="position: absolute; bottom: 8px; right: 12px; font-size: 12px; color: rgba(255,255,255,0.15); margin:0;">
+                        left: 50px; top: 50px;
+                    </p>
+                </div>
+                <p style="font-size:13px; color:rgba(255,255,255,0.25); margin-top:8px; text-align:center;">
+                    ✅ 子级以 <strong style="color:#64c8ff;">父级左上角</strong> 为起点偏移 50px
+                </p>
+            </div>
+
+            <div class="code-block" style="margin-top:12px;">
+                <span class="comment">/* 父级：作为参照物 */</span><br>
+                <span class="selector">.parent</span> { <br>
+                &nbsp;&nbsp;<span class="property">position</span>: <span class="value">relative</span>; <br>
+                &nbsp;&nbsp;<span class="property">width</span>: <span class="value">300px</span>; <br>
+                &nbsp;&nbsp;<span class="property">height</span>: <span class="value">200px</span>; <br>
+                }<br><br>
+                <span class="comment">/* 子级：以父级为起点 */</span><br>
+                <span class="selector">.child</span> { <br>
+                &nbsp;&nbsp;<span class="property">position</span>: <span class="value">absolute</span>; <br>
+                &nbsp;&nbsp;<span class="property">left</span>: <span class="value">50px</span>; <br>
+                &nbsp;&nbsp;<span class="property">top</span>: <span class="value">50px</span>; <br>
+                }
+            </div>
+
+            <div class="note-box">
+                <p>💡 <strong>“以父级为起点，又不是以父级为终点”</strong> —— 意思是：子级 <strong>起点</strong> 是父级的左上角，但 <strong>偏移量</strong> 由 left/top 决定，可以超出父级边界。</p>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4. 层级控制 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>4️⃣ 层级控制：<code>z-index</code></h2>
+            <p>
+                <strong>z-index</strong> 控制定位元素的 <span style="color:#ffd700;">堆叠顺序</span>，数值越大越靠上。
+            </p>
+            <div class="code-block">
+                <span class="selector">.box-1</span> { <br>
+                &nbsp;&nbsp;<span class="property">position</span>: <span class="value">absolute</span>; <br>
+                &nbsp;&nbsp;<span class="property">z-index</span>: <span class="value">10</span>; <span class="comment">/* 在上层 */</span><br>
+                }<br>
+                <span class="selector">.box-2</span> { <br>
+                &nbsp;&nbsp;<span class="property">position</span>: <span class="value">absolute</span>; <br>
+                &nbsp;&nbsp;<span class="property">z-index</span>: <span class="value">1</span>; <span class="comment">/* 在下层 */</span><br>
+                }
+            </div>
+            <div class="note-box">
+                <p>⚠️ <strong>z-index 只在定位元素上生效</strong>（relative / absolute / fixed / sticky）。</p>
+                <p style="margin-top:4px;">📌 父级 <code>z-index</code> 会影响整个子级堆叠上下文。</p>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 5. 记忆口诀 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>5️⃣ 记忆口诀 🧠</h2>
+            <div class="juekou">
+                “<span>父级 relative</span>，子级 absolute，<br>
+                <span>left / top</span> 定偏移，<span>z-index</span> 控层级”
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:12px;">
+                <span class="tag tag-relative">relative = 参照物</span>
+                <span class="tag tag-absolute">absolute = 跟着父级走</span>
+                <span class="tag tag-fixed">fixed = 固定在视口</span>
+                <span class="tag tag-sticky">sticky = 滚动粘性</span>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 底部返回 -->
+        <!-- ============================================================ -->
+        <hr>
+        <div class="back-link-wrap">
+            <a href="../改3.html" class="back-link">← 返回首页</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧹 清除浮动核心要点</title>
+    <style>
+        /* ===== 全局样式 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '微软雅黑', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            /* 🌟 毛玻璃背景：双层叠加 */
+            background-image: url(img/4.jpg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+
+            /* 毛玻璃核心：半透明底色 + 模糊 */
+            background-color: rgba(10, 8, 7, 0.50);
+            background-blend-mode: overlay;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== 主容器：毛玻璃卡片 ===== */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            padding: 35px 40px;
+
+            /* 🌟 毛玻璃效果 */
+            background: rgba(22, 27, 34, 0.55);
+            backdrop-filter: blur(14px) saturate(1.2);
+            -webkit-backdrop-filter: blur(14px) saturate(1.2);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+
+            color: #e6edf3;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            color: #f0e6d3;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 14px;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212, 168, 75, 0.3), transparent);
+            margin: 24px 0;
+        }
+
+        /* ===== 卡片 ===== */
+        .card {
+            background: rgba(13, 17, 23, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: rgba(13, 17, 23, 0.65);
+            border-color: rgba(212, 168, 75, 0.15);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #d4a84b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #f0883e;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        /* ===== 浮动演示区 ===== */
+        .demo-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 10px;
+            border: 1px dashed rgba(255, 255, 255, 0.06);
+        }
+
+        .demo-box .float-parent {
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            background: rgba(255, 107, 107, 0.05);
+            min-height: 20px;
+        }
+
+        .demo-box .float-parent .float-child {
+            float: left;
+            width: 80px;
+            height: 80px;
+            margin: 6px;
+            background: rgba(31, 111, 235, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .demo-box .float-parent .float-child:nth-child(2) {
+            background: rgba(218, 54, 51, 0.6);
+        }
+
+        .demo-box .float-parent .float-child:nth-child(3) {
+            background: rgba(35, 134, 54, 0.6);
+        }
+
+        /* ===== 代码块 ===== */
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #e6edf3;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 10px;
+        }
+
+        .code-block .comment {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .code-block .selector {
+            color: #ff7b72;
+        }
+        .code-block .property {
+            color: #79c0ff;
+        }
+        .code-block .value {
+            color: #a5d6ff;
+        }
+
+        /* ===== 3 种方法对比 ===== */
+        .method-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 700px) {
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .method-card {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .method-card h4 {
+            color: #d4a84b;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .method-card p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 6px;
+        }
+
+        /* ===== 返回链接 ===== */
+        .back-link-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 8px 22px;
+            background: rgba(212, 168, 75, 0.12);
+            border: 1px solid rgba(212, 168, 75, 0.2);
+            border-radius: 8px;
+            color: #d4a84b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .back-link:hover {
+            background: #d4a84b;
+            color: #0d1117;
+            box-shadow: 0 0 30px rgba(212, 168, 75, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* ===== 标签 ===== */
+        .tag {
+            display: inline-block;
+            padding: 0 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tag-danger {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+        .tag-success {
+            background: rgba(35, 134, 54, 0.2);
+            color: #238636;
+        }
+        .tag-warning {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+        }
+        .tag-info {
+            background: rgba(100, 200, 255, 0.15);
+            color: #64c8ff;
+        }
+
+        /* ===== 口诀 ===== */
+        .juekou {
+            text-align: center;
+            font-size: 18px;
+            color: #d4a84b;
+            letter-spacing: 4px;
+            padding: 12px;
+            background: rgba(212, 168, 75, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 168, 75, 0.08);
+        }
+
+        .juekou span {
+            color: #f0e6d3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>🧹 清除浮动 · 核心要点</h1>
+        <p class="subtitle">Clearfix — 解决浮动塌陷的 3 种方法</p>
+        <hr>
+
+        <!-- ============================================================ -->
+        <!-- 1. 什么是浮动塌陷 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>1️⃣ 什么是浮动塌陷？</h2>
+            <p>
+                当子元素使用 <code>float</code> 后，父容器会 <span class="tag tag-danger">失去高度</span>，
+                导致后续元素布局错乱。这就是 <strong>“高度塌陷”</strong>。
+            </p>
+
+            <div class="demo-box">
+                <div class="float-parent">
+                    <div class="float-child">float</div>
+                    <div class="float-child">float</div>
+                    <div class="float-child">float</div>
+                </div>
+                <p style="font-size:13px; color:rgba(255,255,255,0.3); margin-top:6px;">
+                    ⚠️ 父容器高度为 0（红色边框包裹不住子元素）
+                </p>
+            </div>
+
+            <div class="code-block" style="margin-top:10px;">
+                <span class="comment">/* 问题代码：父容器没高度 */</span><br>
+                <span class="selector">.parent</span> { <br>
+                &nbsp;&nbsp;<span class="property">border</span>: <span class="value">2px solid red</span>; <br>
+                }<br>
+                <span class="selector">.child</span> { <br>
+                &nbsp;&nbsp;<span class="property">float</span>: <span class="value">left</span>; <br>
+                }
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 2. 3 种清除浮动方法 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>2️⃣ 3 种清除浮动方法</h2>
+
+            <div class="method-grid">
+
+                <!-- 方法1 -->
+                <div class="method-card">
+                    <h4>① clearfix <span class="tag tag-success">推荐</span></h4>
+                    <p>最经典、最干净的方法</p>
+                    <div class="code-block" style="font-size:12px; padding:8px 12px;">
+                        <span class="selector">.clearfix::after</span> { <br>
+                        &nbsp;&nbsp;<span class="property">content</span>: <span class="value">""</span>; <br>
+                        &nbsp;&nbsp;<span class="property">display</span>: <span class="value">block</span>; <br>
+                        &nbsp;&nbsp;<span class="property">clear</span>: <span class="value">both</span>; <br>
+                        }
+                    </div>
+                </div>
+
+                <!-- 方法2 -->
+                <div class="method-card">
+                    <h4>② overflow <span class="tag tag-warning">常用</span></h4>
+                    <p>触发 BFC，一行搞定</p>
+                    <div class="code-block" style="font-size:12px; padding:8px 12px;">
+                        <span class="selector">.parent</span> { <br>
+                        &nbsp;&nbsp;<span class="property">overflow</span>: <span class="value">hidden</span>; <br>
+                        }
+                    </div>
+                    <p style="font-size:12px; color:rgba(255,255,255,0.3); margin-top:4px;">
+                        ⚠️ 注意：会裁剪超出的内容
+                    </p>
+                </div>
+
+                <!-- 方法3 -->
+                <div class="method-card">
+                    <h4>③ 父浮动 <span class="tag tag-danger">不推荐</span></h4>
+                    <p>让父容器也浮动</p>
+                    <div class="code-block" style="font-size:12px; padding:8px 12px;">
+                        <span class="selector">.parent</span> { <br>
+                        &nbsp;&nbsp;<span class="property">float</span>: <span class="value">left</span>; <br>
+                        &nbsp;&nbsp;<span class="property">width</span>: <span class="value">100%</span>; <br>
+                        }
+                    </div>
+                    <p style="font-size:12px; color:rgba(255,255,255,0.3); margin-top:4px;">
+                        ⚠️ 可能导致更多浮动问题
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. 完整 clearfix 代码 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>3️⃣ 标准 clearfix（直接抄）</h2>
+            <p>这是 <span class="tag tag-success">最推荐</span> 的写法，兼容所有浏览器。</p>
+            <div class="code-block">
+                <span class="comment">/* 标准 clearfix —— 一劳永逸 */</span><br>
+                <span class="selector">.clearfix::after</span> { <br>
+                &nbsp;&nbsp;<span class="property">content</span>: <span class="value">""</span>; <br>
+                &nbsp;&nbsp;<span class="property">display</span>: <span class="value">table</span>; <span class="comment">/* 或 block */</span><br>
+                &nbsp;&nbsp;<span class="property">clear</span>: <span class="value">both</span>; <br>
+                }<br><br>
+                <span class="comment">/* 兼容 IE 6/7 */</span><br>
+                <span class="selector">.clearfix</span> { <br>
+                &nbsp;&nbsp;<span class="property">*zoom</span>: <span class="value">1</span>; <br>
+                }
+            </div>
+            <div class="demo-box" style="margin-top:10px;">
+                <div class="float-parent" style="border-color:rgba(35,134,54,0.4);">
+                    <div class="float-child">float</div>
+                    <div class="float-child">float</div>
+                    <div class="float-child">float</div>
+                    <div style="clear:both; height:0;"></div>
+                </div>
+                <p style="font-size:13px; color:rgba(255,255,255,0.3); margin-top:6px;">
+                    ✅ 添加 clearfix 后，父容器包裹住子元素
+                </p>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4. 浮动 vs Flexbox -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>4️⃣ 浮动 vs Flexbox</h2>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px;">
+                <div style="background:rgba(255,107,107,0.05); border-radius:8px; padding:14px; border:1px solid rgba(255,107,107,0.1);">
+                    <h4 style="color:#ff6b6b; font-size:14px;">❌ 浮动（旧方案）</h4>
+                    <ul style="color:rgba(255,255,255,0.5); font-size:13px; padding-left:18px; line-height:2;">
+                        <li>需要清除浮动</li>
+                        <li>布局复杂</li>
+                        <li>维护困难</li>
+                        <li>仅用于兼容老项目</li>
+                    </ul>
+                </div>
+                <div style="background:rgba(35,134,54,0.05); border-radius:8px; padding:14px; border:1px solid rgba(35,134,54,0.1);">
+                    <h4 style="color:#238636; font-size:14px;">✅ Flexbox（新方案）</h4>
+                    <ul style="color:rgba(255,255,255,0.5); font-size:13px; padding-left:18px; line-height:2;">
+                        <li><strong>不需要</strong>清除浮动</li>
+                        <li>一行代码搞定布局</li>
+                        <li>易于维护</li>
+                        <li><strong>新项目首选</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 5. 记忆口诀 -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <h2>5️⃣ 记忆口诀 🧠</h2>
+            <div class="juekou">
+                “浮动要清除，<span>父容器</span>才不塌陷”<br>
+                <span style="font-size:14px; letter-spacing:2px; color:rgba(255,255,255,0.3);">
+                    clearfix · overflow · 父浮动
+                </span>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:12px;">
+                <span class="tag tag-success">✅ 新项目用 Flexbox</span>
+                <span class="tag tag-warning">⚠️ 老项目用 clearfix</span>
+                <span class="tag tag-danger">❌ 别再写浮动布局了</span>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 底部返回 -->
+        <!-- ============================================================ -->
+        <hr>
+        <div class="back-link-wrap">
+            <a href="../改3.html" class="back-link">← 返回首页</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
